@@ -289,7 +289,10 @@ export function InstallPath(pathIn: string, tdb: string) {
                     package_json: file('package.json'),
                     data: dir({
                         index: file('index.js')
-                    })
+                    }),
+                    wotlk: dir({
+                        package_json: file('package.json'),
+                    }),
                 }),
                 snippets_example: file('snippets-example.ts'),
             }),
@@ -631,7 +634,8 @@ export function SourcePaths(pathIn: string) {
                 package_json: file('package.json')
             }),
             wotlk: dir({
-                global_d_ts: file('global.d.ts')
+                global_d_ts: file('global.d.ts'),
+                package_json: file('package.json')
             }),
             runtime: dir({}),
             typescript2cxx: dir({}),
