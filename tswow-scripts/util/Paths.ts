@@ -288,7 +288,7 @@ export function InstallPath(pathIn: string, tdb: string) {
                 wow: dir({
                     package_json: file('package.json'),
                     data: dir({
-                        index: file('data.js')
+                        index: file('index.js')
                     })
                 }),
                 snippets_example: file('snippets-example.ts'),
