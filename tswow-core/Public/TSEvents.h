@@ -117,6 +117,7 @@ EVENT_TYPE(UnitOnMeleeSpellHitResult
     , TSMutable<float>
     , TSMutable<float>
     , TSMutable<float>
+    , uint32
 )
 /* @basemod-end */
 EVENT_TYPE(UnitOnCalcMeleeCrit
@@ -1674,6 +1675,7 @@ public:
         EVENT_HANDLE(Unit,OnCalcHeal)
         EVENT_HANDLE(Unit,OnMeleeDamageEarly)
         EVENT_HANDLE(Unit,OnMeleeDamageLate)
+        EVENT_HANDLE(Unit,OnMeleeSpellHitResult)
         EVENT_HANDLE(Unit,OnCalcMeleeCrit)
         EVENT_HANDLE(Unit,OnCalcMeleeOutcome)
         EVENT_HANDLE(Unit,OnCalcThreatEarly)

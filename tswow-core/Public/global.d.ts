@@ -8025,8 +8025,9 @@ declare namespace _hidden {
               attacker: TSUnit
             , victim: TSUnit
             , dodgeChance: TSMutable<float>
-            , blockChance : TSMutable<float>
             , parryChance: TSMutable<float>
+            , blockChance: TSMutable<float>
+            , attackType: WeaponAttackType
         )=>void)
 
         OnCalcThreatEarly(callback: (
