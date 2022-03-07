@@ -113,6 +113,7 @@ EVENT_TYPE(UnitOnMeleeDamageLate
 /* @basemod-begin: add meleespellhitresult hook */
 EVENT_TYPE(UnitOnMeleeSpellHitResult
     , TSMutable<uint32>
+    , TSMutable<uint32>
     , float
     , float
     , float
