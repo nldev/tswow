@@ -110,6 +110,14 @@ EVENT_TYPE(UnitOnMeleeDamageLate
     , uint32
     , uint32
 )
+/* @basemod-begin: add meleespellhitresult hook */
+EVENT_TYPE(UnitOnMeleeSpellHitResult
+    , TSMutable<uint32>
+    , float
+    , float
+    , float
+)
+/* @basemod-end */
 EVENT_TYPE(UnitOnCalcMeleeCrit
     , TSUnit
     , TSUnit
@@ -1266,6 +1274,9 @@ struct TSEventStore
     EVENT(UnitOnCalcHeal)
     EVENT(UnitOnMeleeDamageEarly)
     EVENT(UnitOnMeleeDamageLate)
+        /* @basemod-begin: add meleespellhitresult hook */
+    EVENT(UnitOnMeleeSpellHitResult)
+        /* @basemod-end */
     EVENT(UnitOnCalcMeleeCrit)
     EVENT(UnitOnCalcMeleeOutcome)
     EVENT(UnitOnCalcThreatEarly)
