@@ -8021,6 +8021,14 @@ declare namespace _hidden {
             , attackType: WeaponAttackType
         )=>void)
 
+	OnMeleeSpellHitResult(callback: (
+              attacker: TSUnit
+            , victim: TSUnit
+            , dodgeChance: TSMutable<float>
+            , blockChance : TSMutable<float>
+            , parryChance: TSMutable<float>
+        )=>void)
+
         OnCalcThreatEarly(callback: (
               owner: TSUnit
             , target: TSUnit
