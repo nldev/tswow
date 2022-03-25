@@ -38,6 +38,12 @@ type double = number;
 type TSArray<T> = T[];
 type TSString = string;
 
+// @basemod-begin: addon global additions
+// FIXME: commit this separately
+declare function IsControlKeyDown(): boolean
+declare function DressUpItemLink(i: string): number
+// @basemod-end
+
 declare function Message(classTarget: any): any
 declare function MsgClass(classTarget: any, name: string): any
 declare function MsgClassArray(size: number): (field: any, name: any)=>void
