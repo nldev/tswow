@@ -61,6 +61,8 @@ public:
     bool IsPvPFlagged();
     bool IsOnVehicle();
     bool IsInCombat();
+    void SetInCombatWith(TSUnit enemy);
+    bool IsInCombatWith(TSUnit who);
     bool IsUnderWater();
     bool IsInWater();
     bool IsStopped();
@@ -71,7 +73,8 @@ public:
     bool HasAuraType(uint32 auraType);
     bool IsCasting();
     bool HasUnitState(uint32 state);
-    TSUnit  GetOwner();
+    uint32 GetTarget();
+    TSUnit GetOwner();
     uint64 GetOwnerGUID();
     uint32 GetMountID();
     uint64 GetCreatorGUID();

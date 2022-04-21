@@ -434,6 +434,7 @@ EVENT_TYPE(SpellOnTick,TSAuraEffect)
 EVENT_TYPE(SpellOnRemove,TSAuraEffect,TSAuraApplication, uint32)
 EVENT_TYPE(SpellOnApply,TSAuraEffect,TSAuraApplication, uint32)
 
+EVENT_TYPE(SpellOnDetermineHitOutcome, TSSpellInfo, TSUnit, TSMutable<uint32>, TSMutable<uint32>)
 EVENT_TYPE(SpellOnCalcMiss, TSSpell, TSWorldObject, TSUnit, TSMutable<uint32>, TSMutable<uint32>)
 EVENT_TYPE(SpellOnDamageEarly, TSSpell, TSMutable<int32>, TSSpellDamageInfo, uint32, bool, uint32 /*effectMask*/)
 EVENT_TYPE(SpellOnDamageLate, TSSpell, TSMutable<uint32>, TSSpellDamageInfo, uint32, bool, uint32 /*effectMask*/)
@@ -462,6 +463,7 @@ struct TSSpellEvents {
      EVENT(SpellOnRemove)
      EVENT(SpellOnApply)
 
+     EVENT(SpellOnDetermineHitOutcome)
      EVENT(SpellOnCalcMiss)
      EVENT(SpellOnDamageEarly)
      EVENT(SpellOnDamageLate)
@@ -1361,6 +1363,7 @@ struct TSEventStore
     EVENT(SpellOnRemove)
     EVENT(SpellOnApply)
 
+    EVENT(SpellOnDetermineHitOutcome)
     EVENT(SpellOnCalcMiss)
     EVENT(SpellOnDamageEarly)
     EVENT(SpellOnDamageLate)
@@ -1711,7 +1714,8 @@ public:
           EVENT_HANDLE(Spell,OnRemove)
           EVENT_HANDLE(Spell,OnApply)
 
-          EVENT_HANDLE(Spell, OnCalcMiss)
+          EVENT_HANDLE(Spell,OnDetermineHitOutcome)
+          EVENT_HANDLE(Spell,OnCalcMiss)
           EVENT_HANDLE(Spell,OnDamageEarly)
           EVENT_HANDLE(Spell,OnDamageLate)
           EVENT_HANDLE(Spell,OnPeriodicDamage)
@@ -1737,6 +1741,7 @@ public:
           MAP_EVENT_HANDLE(Spell,OnRemove)
           MAP_EVENT_HANDLE(Spell,OnApply)
 
+          MAP_EVENT_HANDLE(Spell, OnDetermineHitOutcome)
           MAP_EVENT_HANDLE(Spell, OnCalcMiss)
           MAP_EVENT_HANDLE(Spell, OnDamageEarly)
           MAP_EVENT_HANDLE(Spell, OnDamageLate)

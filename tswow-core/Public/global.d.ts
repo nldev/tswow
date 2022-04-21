@@ -77,6 +77,7 @@ declare const enum InventorySlots /**@realType:uint32*/{
 
 
 declare const enum SpellMissInfo {} /** SharedDefines.h:SpellMissInfo */
+declare const enum ProcFlagsHit {} /** SpellMgr.h:ProcFlagsHit */
 declare const enum CorpseType {} /** Corpse.h:CorpseType */
 declare const enum CreatureFamily {} /** SharedDefines.h:CreatureFamily */
 declare const enum RemoveMethod {} /** SharedDefines.h:RemoveMethod */
@@ -5776,7 +5777,9 @@ declare interface TSUnit extends TSWorldObject {
      *
      * @return bool inCombat
      */
-    IsInCombat() : bool
+    IsInCombat(): bool
+    SetInCombatWith(enemy: TSUnit): void
+    IsInCombatWith(who: TSUnit): bool
 
     /**
      * Returns true if the [Unit] is under water.
@@ -5845,6 +5848,7 @@ declare interface TSUnit extends TSWorldObject {
      */
     HasUnitState(state : uint32) : bool
 
+    GetTarget(): uint32
     /**
      * Returns the [Unit]'s owner.
      *
@@ -7521,6 +7525,7 @@ declare namespace _hidden {
         OnRemove(spell: EventID, callback: (effect: TSAuraEffect, application: TSAuraApplication, type: uint32)=>void);
         OnCalcMeleeMiss(callback: (spell: TSSpellInfo, miss: TSMutable<float>, attacker: TSUnit, victim: TSUnit, attackType: uint8, skillDiff: WeaponAttackType)=>void): T
         OnApply(spell: EventID, callback: (effect: TSAuraEffect, application: TSAuraApplication, type: uint32) => void);
+        OnDetermineHitOutcome(spell: EventID, callback: (spell: TSSpellInfo, victim: TSUnit, procFlags: TSMutable<ProcFlagsHit>, missCondition: TSMutable<SpellMissInfo>) => void);
         OnCalcMiss(spell: EventID, callback: (spell: TSSpell, caster: TSWorldObject, target: TSUnit, effectMask: TSMutable<uint32>, missCondition: TSMutable<SpellMissInfo>) => void)
         OnDamageEarly(spell: EventID, callback : (
               spell: TSSpell
@@ -7587,7 +7592,8 @@ declare namespace _hidden {
         OnTick(callback: (effect: TSAuraEffect)=>void): T;
         OnRemove(callback: (effect: TSAuraEffect, application: TSAuraApplication, type: uint32)=>void): T;
         OnApply(callback: (effect: TSAuraEffect, application: TSAuraApplication, type: uint32)=>void): T;
-        OnCalcMeleeMiss(callback: (spell: TSSpellInfo, miss: TSMutable<float>, attacker: TSUnit, victim: TSUnit, attackType: WeaponAttackType, skillDiff: int32)=>void): T
+        OnCalcMeleeMiss(callback: (spell: TSSpellInfo, miss: TSMutable<float>, attacker: TSUnit, victim: TSUnit, attackType: WeaponAttackType, skillDiff: int32)=> void): T
+        OnDetermineHitOutcome(callback: (spell: TSSpellInfo, victim: TSUnit, procFlags: TSMutable<ProcFlagsHit>, missCondition: TSMutable<SpellMissInfo>) => void): T;
         OnCalcMiss(callback: (spell: TSSpell, caster: TSWorldObject, target: TSUnit, effectMask: TSMutable<uint32>, missCondition: TSMutable<SpellMissInfo>) => void)
         OnDamageEarly(callback: (
             spell: TSSpell

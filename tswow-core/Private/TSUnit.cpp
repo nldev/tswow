@@ -453,6 +453,15 @@ bool TSUnit::IsInCombat()
     return unit->IsInCombat();
 #endif
 }
+void TSUnit::SetInCombatWith(TSUnit enemy)
+{
+    unit->SetInCombatWith(enemy);
+}
+
+bool TSUnit::IsInCombatWith(TSUnit who)
+{
+    return unit->IsInCombatWith(who);
+}
 
 /**
  * Returns true if the [Unit] is under water.
@@ -574,7 +583,10 @@ bool TSUnit::HasUnitState(uint32 state)
 {
     return unit->IsFlying();
 }*/
-
+uint32 TSUnit::GetTarget()
+{
+    return unit->GetTarget();
+}
 /**
  * Returns the [Unit]'s owner.
  *
