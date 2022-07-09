@@ -114,12 +114,12 @@ declare const enum DiminishingGroups /**@realType:uint8 */ {
     DIMINISHING_NONE            = 0,
     DIMINISHING_BANISH          = 1,
     DIMINISHING_CHARGE          = 2,
-    DIMINISHING_OPENING_STUN    = 3, // Cheap Shot and Pounce
+    DIMINISHING_OPENING_STUN    = 3,
     DIMINISHING_CONTROLLED_STUN = 4,
     DIMINISHING_CONTROLLED_ROOT = 5,
     DIMINISHING_CYCLONE         = 6,
     DIMINISHING_DISARM          = 7,
-    DIMINISHING_DISORIENT       = 8, // Several spells where name cant be generalized.
+    DIMINISHING_DISORIENT       = 8,
     DIMINISHING_ENTRAPMENT      = 9,
     DIMINISHING_FEAR            = 10,
     DIMINISHING_HORROR          = 11,
