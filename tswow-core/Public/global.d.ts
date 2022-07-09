@@ -100,6 +100,16 @@ declare const enum Powers /**@realType:int8 */ {
     RUNE                          = 5,
     RUNIC_POWER                   = 6,
 } /**@realType:int8 */
+
+declare const enum DiminishingLevels /**@realType:uint8 */ {
+    DIMINISHING_LEVEL_1            = 0,
+    DIMINISHING_LEVEL_2            = 1,
+    DIMINISHING_LEVEL_3            = 2,
+    DIMINISHING_LEVEL_IMMUNE       = 3,
+    DIMINISHING_LEVEL_4            = 3,
+    DIMINISHING_LEVEL_TAUNT_IMMUNE = 4,
+}
+
 declare const enum CreatureType {} /** SharedDefines.h:CreatureType */
 declare const enum ReactStates {} /** UnitDefines.h:ReactStates */
 declare const enum LocaleConstant {} /** Common.h:LocaleConstant */
@@ -8450,7 +8460,8 @@ declare namespace _hidden {
         OnExitCombat(callback: (unit: TSUnit)=>void);
         OnEnterCombatWith(callback: (me: TSUnit, other: TSUnit)=>void);
         OnExitCombatWith(callback: (me: TSUnit, other: TSUnit)=>void);
-        OnSetTarget(callback: (me: TSUnit, selection: uint64, oldSelection: uint64)=>void)
+        OnSetTarget(callback: (me: TSUnit, selection: uint64, oldSelection: uint64) => void);
+        OnGetDiminishing(callback: (unit: TSUnit, info: TSSpellInfo, level: TSMutable<DiminishingLevels>, hitTime: uint32, hitCount: uint32, triggered: boolean) => void);
     }
 
     export class Battleground<T> {
