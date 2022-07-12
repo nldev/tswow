@@ -8017,7 +8017,7 @@ declare namespace _hidden {
         OnObjectTargetSelect(id: EventID, callback: (spell: TSSpell, object: TSMutableWorldObject, index: SpellEffIndex, target: TSSpellImplicitTargetInfo, cancel: TSMutable<bool> )=>void)
 
         OnResistAbsorbCalculate(callback: (spelL: TSSpell, damage: TSDamageInfo, resistAmount: TSMutable<uint32>, absorbAmount: TSMutable<int32>, cancel: TSMutable<bool> )=>void)
-        OnResistAbsorbCalculate(id: EventID, callback: (spelL: TSSpell, damage: TSDamageInfo, resistAmount: TSMutable<uint32>, absorbAmount: TSMutable<int32>, cancel: TSMutable<bool> )=>void)
+        OnResistAbsorbCalculate(id: EventID, callback: (spelL: TSSpell, damage: TSDamageInfo, resistAmount: TSMutable<uint32>, absorbAmount: TSMutable<int32>, cancel: TSMutable<bool>) => void)
     }
 
     export class Creature<T> {
@@ -8411,6 +8411,8 @@ declare namespace _hidden {
             , dodgeChance: TSMutable<float>
             , blockChance : TSMutable<float>
             , parryChance: TSMutable<float>
+            , glancingChance: TSMutable<float>
+            , crushingChance: TSMutable<float>
             , attackType: WeaponAttackType
         )=>void)
 
