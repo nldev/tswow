@@ -487,7 +487,7 @@ struct TSEvents
         ID_EVENT(OnCalcHit, TSSpellInfo, TSMutable<int32>, TSWorldObject, TSUnit)
         ID_EVENT(OnCalcResist, TSSpellInfo, TSMutable<int32>, TSWorldObject, TSUnit)
         ID_EVENT(OnCalcMeleeMiss, TSSpellInfo, TSMutable<float>, TSUnit, TSUnit, uint8 attackType, int32 skillDiff)
-
+		ID_EVENT(OnCalcMeleeResult, TSSpellInfo, TSUnit, TSUnit, TSMutable<uint32>, uint8 attackType, uint32 resistChance, uint32 deflectChance, uint32 parryChance, uint32 dodgeChance, uint32 blockChance, uint32 missChance, uint32 hitChance, int32 skillDiff)
         ID_EVENT(OnCheckAreaTarget, TSAura, TSUnit, TSMutable<bool> result, TSMutable<bool> cancelDefault)
         ID_EVENT(OnCheckEffectProc, TSAuraEffect, TSAuraApplication, TSProcEventInfo, TSMutable<bool> result, TSMutable<bool> cancelDefault)
         ID_EVENT(OnCheckProc, TSAuraApplication, TSProcEventInfo, TSMutable<bool> result, TSMutable<bool> cancelDefault)
