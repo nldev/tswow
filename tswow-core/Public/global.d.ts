@@ -8497,7 +8497,7 @@ declare namespace _hidden {
         OnEnterCombatWith(callback: (me: TSUnit, other: TSUnit)=>void);
         OnExitCombatWith(callback: (me: TSUnit, other: TSUnit)=>void);
         OnSetTarget(callback: (me: TSUnit, selection: uint64, oldSelection: uint64) => void);
-        OnApplyDiminishingReturn(callback: (target: TSUnit, info: TSSpellInfo, duration: TSMutable<int32>, oldDuration: int32, level: DiminishingLevels, mod: float) => void);
+        OnApplyDiminishingReturn(callback: (target: TSUnit, caster: TSWorldObject, info: TSSpellInfo, duration: TSMutable<int32>, oldDuration: int32, level: DiminishingLevels, mod: float) => void);
     }
 
     export class Battleground<T> {

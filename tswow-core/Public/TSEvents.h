@@ -447,6 +447,7 @@ struct TSEvents
         EVENT(OnSetTarget, TSUnit, uint64 new_target, uint64 old_target)
         EVENT(OnApplyDiminishingReturn
             , TSUnit target
+            , TSWorldObject caster
             , TSSpellInfo info
             , TSMutable<int32> duration
             , int32 oldDuration
