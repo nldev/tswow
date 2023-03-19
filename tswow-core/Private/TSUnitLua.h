@@ -48,6 +48,7 @@ void TSLua::load_unit_methods_t(sol::state & state, sol::usertype<T> & target, s
     LUA_FIELD(target, TSUnit, HasAuraType);
     LUA_FIELD(target, TSUnit, IsCasting);
     LUA_FIELD(target, TSUnit, HasUnitState);
+    LUA_FIELD(target, TSUnit, IsOutdoors);
     LUA_FIELD(target, TSUnit, GetOwner);
     LUA_FIELD(target, TSUnit, GetOwnerGUID);
     LUA_FIELD(target, TSUnit, GetMountID);

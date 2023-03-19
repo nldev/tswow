@@ -562,6 +562,11 @@ bool TSUnit::HasUnitState(uint32 state)
 #endif
 }
 
+bool TSUnit::IsOutdoors()
+{
+    return unit->IsOutdoors();
+}
+
 /*int TSUnit::IsVisible(lua_State* L, Unit* unit)
 {
     return unit->IsVisible();

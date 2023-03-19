@@ -6048,6 +6048,14 @@ declare interface TSUnit extends TSWorldObject {
     HasUnitState(state : uint32) : bool
 
     /**
+     * Returns true if the [Unit] is outdoors.
+     * 
+     * @return bool isOutdoors
+     */
+    
+    IsOutdoors() : bool
+
+    /**
      * Returns the [Unit]'s owner.
      *
      * @return [Unit] owner
@@ -8061,6 +8069,9 @@ declare namespace _hidden {
 
         OnDetermineGlobalCooldown(callback: (spell: TSSpell, duration: TSMutable<int32>) => void)
         OnDetermineGlobalCooldown(id: EventID, callback: (spell: TSSpell, gcd: TSMutable<int32>) => void)
+    
+        OnPeriodicRemoveAura(callback: (info: TSSpellInfo, aura: TSAura, isRemoved: TSMutable<bool>) => void)
+        OnPeriodicRemoveAura(id: EventID, callback: (info: TSSpellInfo, aura: TSAura, isRemoved: TSMutable<bool>) => void)
     }
 
     export class Creature<T> {

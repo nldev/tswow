@@ -74,6 +74,7 @@ public:
     bool HasAuraType(uint32 auraType);
     bool IsCasting();
     bool HasUnitState(uint32 state);
+    bool IsOutdoors();
     TSUnit  GetOwner();
     uint64 GetOwnerGUID();
     uint32 GetMountID();
