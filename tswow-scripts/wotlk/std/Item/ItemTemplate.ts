@@ -37,6 +37,7 @@ import { MainEntityID } from "../Misc/Entity";
 import { Ids, StaticIDGenerator } from "../Misc/Ids";
 import { MaybeDBCEntity } from "../Misc/SQLDBCEntity";
 import { PageTextRegistry } from "../PageText/PageText";
+import { RaceMask } from "../Race/RaceType";
 import { RegistryStatic } from "../Refs/Registry";
 import { TotemCategoryRegistry } from "../TotemCategory/TotemCategory";
 import { BagFamily } from "./BagFamily";
@@ -134,7 +135,7 @@ export class ItemTemplate extends MainEntityID<item_templateRow> {
     }
 
     /** Only applicable if item is a shield */
-    get BlockChance() { return this.wrap(this.row.block); }
+    get Block() { return this.wrap(this.row.block); }
     get ItemSet() { return ItemSetRegistry.ref(this, this.row.itemset); }
     get Resistances() { return new ItemResistance(this); }
     get Stats() { return new ItemStats(this); }
@@ -169,7 +170,7 @@ export class ItemTemplate extends MainEntityID<item_templateRow> {
     get RequiredSpell() { return this.wrap(this.row.requiredspell); }
     get RequiredHonorRank() { return this.wrap(this.row.requiredhonorrank); }
     get ClassMask() { return makeMaskCell32(ClassMask, this, this.row.AllowableClass, true); }
-    get RaceMask() { return this.wrap(this.row.AllowableRace); }
+    get RaceMask() { return makeMaskCell32(RaceMask, this, this.row.AllowableRace, true); }
     get MaxCount() { return this.wrap(this.row.maxcount); }
     get MaxStack() { return this.wrap(this.row.stackable); }
     get Bonding() {
@@ -262,10 +263,8 @@ export class ItemTemplate extends MainEntityID<item_templateRow> {
 export class ItemTemplateRegistryClass
 extends RegistryStatic<ItemTemplate,item_templateRow,item_templateQuery> {
     protected Clone(mod: string, id: string, r: ItemTemplate, parent: ItemTemplate): void {
-        if(parent.GemProperties.get() !== 0) {
-            throw new Error(`Tried cloning an item with GemProperties != 0, this is not supported!`);
-        }
         let dbc = DBC.Item.findById(parent.ID);
+        r.row.GemProperties.set(0);
         if(dbc) {
             dbc.clone(r.ID);
         }
@@ -293,7 +292,7 @@ extends RegistryStatic<ItemTemplate,item_templateRow,item_templateQuery> {
          .Area.set(0)
          .Armor.set(0)
          .BagFamily.set(0)
-         .BlockChance.set(0)
+         .Block.set(0)
          .Bonding.NO_BOUNDS.set()
          .Class.JUNK.set()
          .ClassMask.set(-1)

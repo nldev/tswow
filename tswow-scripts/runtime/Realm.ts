@@ -1,4 +1,4 @@
-import { BuildType, DEFAULT_BUILD_TYPE } from "../util/BuildType";
+import { BuildType } from "../util/BuildType";
 import { commands } from "../util/Commands";
 import { ConfigFile, patchTCConfig, Property, Section } from "../util/ConfigFile";
 import { EmulatorCore } from "../util/EmulatorCore";
@@ -144,6 +144,14 @@ export class RealmConfig extends ConfigFile {
         , note: 'See possible values here: https://trinitycore.atlassian.net/wiki/spaces/tc/pages/2130016/realmlist#realmlist-timezone'
     })
     TimeZone: number = this.undefined()
+
+    @Property({
+          name: 'Realm.AutoRestart'
+        , description: 'Whether to restart the worldserver if it crashes'
+        , examples: [[false,'']]
+        , note: 'See possible values here: https://trinitycore.atlassian.net/wiki/spaces/tc/pages/2130016/realmlist#realmlist-timezone'
+    })
+    AutoRestart: boolean = this.undefined();
 }
 
 class RealmManager {
@@ -167,7 +175,7 @@ export class Realm {
 
     readonly mod: ModuleEndpoint
     readonly name: string
-    lastBuildType: BuildType = DEFAULT_BUILD_TYPE
+    lastBuildType: BuildType = NodeConfig.DefaultBuildType
     readonly config: RealmConfig
 
     private manager() {
@@ -324,6 +332,8 @@ export class Realm {
         patchTCConfig(this.path.worldserver_conf.get(), 'Updates.Redundancy', 0)
         patchTCConfig(this.path.worldserver_conf.get(), 'RealmID',this.getID())
         patchTCConfig(this.path.worldserver_conf.get(), 'DataDir',this.config.Dataset.path.abs().get())
+
+        this.worldserver.setAutoRestart(this.config.AutoRestart);
 
         switch(this.core) {
             case 'azerothcore':

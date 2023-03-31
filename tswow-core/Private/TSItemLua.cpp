@@ -1,15 +1,17 @@
 #include "TSLua.h"
+#include "TSLuaVarargs.h"
 #include "TSItem.h"
+#include "TSObject.h"
+#include "TSEntity.h"
 
-#include "TSString.h"
 #include "TSPlayer.h"
 
 void TSLua::load_item_methods(sol::state& state)
 {
-    auto ts_item = state.new_usertype < TSItem>("TSItem");
-    ts_item.set_function("GetItemLink", &TSItem::LGetItemLink);
-    ts_item.set_function("GetName", &TSItem::LGetName);
+    auto ts_item = state.new_usertype < TSItem>("TSItem", sol::base_classes, sol::bases<TSObject, TSEntityProvider>());
     LUA_FIELD(ts_item, TSItem, IsSoulBound);
+    LUA_FIELD(ts_item, TSItem, GetItemLink);
+    LUA_FIELD(ts_item, TSItem, GetName);
     LUA_FIELD(ts_item, TSItem, IsBoundAccountWide);
     LUA_FIELD(ts_item, TSItem, IsBoundByEnchant);
     LUA_FIELD(ts_item, TSItem, IsNotBoundToPlayer);
@@ -60,8 +62,8 @@ void TSLua::load_item_methods(sol::state& state)
     LUA_FIELD(ts_item, TSItem, ClearEnchantment);
     LUA_FIELD(ts_item, TSItem, SaveToDB);
     state.set_function("CreateItem", sol::overload(
-        &LCreateItem0
-        , &LCreateItem1
-        , &LCreateItem2
+        [](uint32 entry, uint32 count) { return CreateItem(entry, count); },
+        [](uint32 entry) { return CreateItem(entry); },
+        []() { return CreateItem(); }
     ));
 }

@@ -74,7 +74,6 @@ file (GLOB headers "${ipaths.bin.include.abs('FORWARD')}/*.h")
 
 # root livescript headers
 target_include_directories(${buildModule} PUBLIC ../../../)
-file (GLOB headers "../../../*.h")
 
 # ts livescript headers
 target_include_directories(${buildModule} PUBLIC ./livescripts)
@@ -97,6 +96,9 @@ if (WIN32)
     add_definitions(
         -wd4251
         -wd4275
+        -wd4244
+        -wd4267
+        -wd4305
     )
 endif()
 

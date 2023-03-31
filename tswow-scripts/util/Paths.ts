@@ -20,7 +20,7 @@ import { mpath, wfs } from './FileSystem';
 import { custom, dir, dirn, dynCustom, dyndir, dynfile, enumDir, file, FilePath, generateTree, WDirectory, WFile } from "./FileTree";
 import { isWindows } from './Platform';
 
-export const TDB_URL = "https://github.com/TrinityCore/TrinityCore/releases/download/TDB335.22061/TDB_full_world_335.22061_2022_06_01.7z"
+export const TDB_URL = "https://github.com/TrinityCore/TrinityCore/releases/download/TDB335.23011/TDB_full_world_335.23011_2023_01_16.7z"
 
 export const DATASET_MODULES_CONFIG = 'Dataset.Modules'
 export const DATASET_CLIENT_PATCH_LETTER = 'Client.Patch.Letter'
@@ -257,7 +257,11 @@ export function InstallPath(pathIn: string, tdb: string) {
             typescript_js: file('typescript/lib/tsc'),
             tstl_decorators: file('typescript-to-lua/dist/transformation/visitors/class/decorators.js'),
             tstl_js: file('typescript-to-lua/dist/tstl.js'),
-            wow: dir({}),
+            wow: dir({
+                data: dir({
+                    index: file('index.js')
+                })
+            }),
         }),
 
         node_conf: file('node.conf'),
@@ -477,6 +481,9 @@ export function BuildPaths(pathIn: string, tdb: string) {
         release_7z: file('release.7z'),
         terminal_history: file('terminal-history.txt'),
         ClientExtensionsDll: file('ClientExtensions.dll'),
+        client_extensions: dirn('client-extensions',{
+            dll_path: file('ClientExtensions/Release/ClientExtensions.dll')
+        }),
         scripts_config: dirn('scripts-config',{
             typescript2cxx: dir({}),
             wow: dir({}),
@@ -502,7 +509,7 @@ export function BuildPaths(pathIn: string, tdb: string) {
         cmake: dir({
         }),
 
-        cmakeArchive: file('cmake-3.18.3-win64-x64.zip'),
+        cmakeArchive: file('cmake-3.25.0-win64-x64.zip'),
         mysqlArchive: file('mysql-5.7.32-winx64.zip'),
 
         sourceAdt: file('source.adt'),

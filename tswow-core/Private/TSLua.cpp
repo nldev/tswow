@@ -328,6 +328,14 @@ void TSLua::Load()
     load_bindings(state);
     state["HAS_TAG"] = L_HAS_TAG;
     state["BROADCAST_PHASE_ID"] = BROADCAST_PHASE_ID;
+    state["TSClass"] = state.script(
+        "local _lualib = require(\"lualib_bundle\")\n"
+        "TSClass = _lualib.__TS__Class()\n"
+        "TSClass.name = \"TSClass\"\n"
+        "function TSClass.prototype.____constructor(self) end\n"
+        "return TSClass"
+    );
+    state.script("print(\"hello_test\")");
 
     for (auto const& entry : std::filesystem::directory_iterator(LuaRoot()))
     {
@@ -348,7 +356,19 @@ void TSLua::Load()
                 {
                     continue;
                 }
-                execute_file(file);
+
+                try
+                {
+                    execute_file(file);
+                }
+                catch (std::exception const& e)
+                {
+                    std::cerr << e.what() << "\n";
+                }
+                catch (...)
+                {
+                    std::cerr << "Unknown Lua exception\n";
+                }
             }
         }
     }
@@ -358,13 +378,36 @@ void TSLua::Load()
         auto main = table["Main"];
         if (main.get_type() == sol::type::function)
         {
-            main(&ts_events);
+            // todo: hack to catch exceptions, we should properly configure sol to give us error results instead
+            try
+            {
+                main(&ts_events);
+            }
+            catch (std::exception const& e)
+            {
+                std::cerr << e.what() << "\n";
+            }
+            catch (...)
+            {
+                std::cerr << "Unknown Lua exception\n";
+            }
         }
 
         auto __inline_main = table["__InlineMain"];
         if (__inline_main.get_type() == sol::type::function)
         {
-            __inline_main(&ts_events);
+            try
+            {
+                __inline_main(&ts_events);
+            }
+            catch (std::exception const& e)
+            {
+                std::cerr << e.what() << "\n";
+            }
+            catch (...)
+            {
+                std::cerr << "Unknown Lua exception\n";
+            }
         }
     }
 }

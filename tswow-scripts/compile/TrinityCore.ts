@@ -212,7 +212,7 @@ export namespace TrinityCore {
         //
         // Tracy
         //
-        const tracyEnabled = !Args.hasFlag(['notracy','no-tracy'],[process.argv,args1])
+        const tracyEnabled = Args.hasFlag(['tracy','tracy-enable'],[process.argv,args1])
 
         if(Args.hasFlag('notc',[process.argv,args1])) {
             return;
@@ -236,8 +236,8 @@ export namespace TrinityCore {
 
         if(!Args.hasFlag('no-compile',[process.argv,args1])) {
             if (isWindows()) {
-                setupCommand = `${cmake} -DTOOLS=${tools}`
-                +` -DCMAKE_GENERATOR="Visual Studio 16 2019"`
+                setupCommand = `${cmake} -G "Visual Studio 17 2022" -DTOOLS=${tools}`
+                +` -DCMAKE_GENERATOR="Visual Studio 17 2022"`
                 +` -DSCRIPTS=${scripts}`
                 +` -DMYSQL_INCLUDE_DIR="${mysql}/include"`
                 +` -DMYSQL_LIBRARY="${mysql}/lib/libmysql.lib"`
@@ -246,7 +246,8 @@ export namespace TrinityCore {
                 +` -DBOOST_ROOT="${bpaths.boost.boost_1_74_0.abs().get()}"`
                 +` -DTRACY_ENABLE="${tracyEnabled?'ON':'OFF'}"`
                 +` -DBUILD_SHARED_LIBS="ON"`
-                +` -DTRACY_TIMER_FALLBACK="${Args.hasFlag('tracy-timer-fallback',[process.argv,args1])?'ON':'OFF'}"`
+                +` -DTRACY_TIMER_FALLBACK="${!Args.hasFlag('tracy-better-timer',[process.argv,args1])?'ON':'OFF'}"`
+                +` -DBUILD_TESTING="OFF"`
                 +` -S "${spaths.cores.TrinityCore.get()}"`
                 +` -B "${bpaths.TrinityCore.get()}"`;
                 buildCommand = `${cmake} --build ${bpaths.TrinityCore.get()} --config ${type}`;
@@ -265,8 +266,9 @@ export namespace TrinityCore {
                 +` -DCMAKE_C_COMPILER=/usr/bin/clang`
                 +` -DCMAKE_CXX_COMPILER=/usr/bin/clang++`
                 +` -DBUILD_SHARED_LIBS="ON"`
+                +` -DBUILD_TESTING="OFF"`
                 +` -DTRACY_ENABLED="${Args.hasFlag('tracy',[process.argv,args1])}"`
-                +` -DTRACY_TIMER_FALLBACK="${Args.hasFlag('tracy-timer-fallback',[process.argv,args1])?'ON':'OFF'}"`
+                +` -DTRACY_TIMER_FALLBACK="${!Args.hasFlag('tracy-timer-fallback',[process.argv,args1])?'ON':'OFF'}"`
                 +` -DWITH_WARNINGS=1`
                 +` -DSCRIPTS=${scripts}`;
                 buildCommand = 'make -j 4';
@@ -282,6 +284,7 @@ export namespace TrinityCore {
             term.log('build','Skipped compiling TrinityCore')
         }
 
+        term.log('build','Copying libraries')
         if(isWindows()) {
             bpaths.TrinityCore.bin(type).scripts
                 .copy(ipaths.bin.core.pick('trinitycore').build.pick(type).scripts)
@@ -323,11 +326,13 @@ export namespace TrinityCore {
             , 'git rev-parse HEAD','pipe').split('\n').join('');
         ipaths.bin.revisions.trinitycore.write(rev)
 
+        term.log('build','Copying sql patches')
         spaths.cores.TrinityCore.sql.updates.copy(ipaths.bin.sql.updates)
         spaths.cores.TrinityCore.sql.custom.copy(ipaths.bin.sql.custom)
 
         await DownloadFile(TDB_URL,bpaths.tdbArchive.get());
         if(!bpaths.tdbSql.exists()) {
+            term.log('build','Extracting tdb')
             SevenZip.extract(
                   bpaths.sevenZip.sevenZa_exe.abs().get()
                 , bpaths.tdbArchive.abs().get()
@@ -335,7 +340,14 @@ export namespace TrinityCore {
             )
         }
 
-        if(!ipaths.bin.tdb.exists()) {
+        if(!ipaths.bin.tdb.exists())
+        {
+            term.log('build','Rewriting sql for MyISAM')
+            bpaths.tdbSql.write(bpaths.tdbSql.readString().split('InnoDB').join('MyISAM')
+                .split("ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Version Notes';")
+                .join("ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Version Notes';")
+            )
+            term.log('build','Copying TDB')
             bpaths.tdbSql.copy(ipaths.bin.tdb);
         }
     }

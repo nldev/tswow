@@ -26,12 +26,11 @@ void TSLua::load_events(sol::state& state)
     LUA_HANDLE(auction_events, AuctionEvents, OnAuctionExpire);
 
     auto vehicle_events = state.new_usertype<TSEvents::VehicleEvents>("VehicleEvents");
-    LUA_HANDLE(vehicle_events, VehicleEvents, OnInstall);
-    LUA_HANDLE(vehicle_events, VehicleEvents, OnUninstall);
-    LUA_HANDLE(vehicle_events, VehicleEvents, OnReset);
-    LUA_HANDLE(vehicle_events, VehicleEvents, OnInstallAccessory);
-    LUA_HANDLE(vehicle_events, VehicleEvents, OnAddPassenger);
-    LUA_HANDLE(vehicle_events, VehicleEvents, OnRemovePassenger);
+    LUA_MAPPED_HANDLE(vehicle_events, VehicleEvents, OnInstall);
+    LUA_MAPPED_HANDLE(vehicle_events, VehicleEvents, OnUninstall);
+    LUA_MAPPED_HANDLE(vehicle_events, VehicleEvents, OnReset);
+    LUA_MAPPED_HANDLE(vehicle_events, VehicleEvents, OnAddPassenger);
+    LUA_MAPPED_HANDLE(vehicle_events, VehicleEvents, OnRemovePassenger);
 
     auto achievement_events = state.new_usertype<TSEvents::AchievementEvents>("AchievementEvents");
     LUA_HANDLE(achievement_events, AchievementEvents, OnComplete);
@@ -268,6 +267,7 @@ void TSLua::load_events(sol::state& state)
     LUA_MAPPED_HANDLE(creature_events, CreatureEvents, OnCalcColorCode);
     LUA_MAPPED_HANDLE(creature_events, CreatureEvents, OnCalcGain);
     LUA_MAPPED_HANDLE(creature_events, CreatureEvents, OnCalcBaseGain);
+    LUA_MAPPED_HANDLE(creature_events, CreatureEvents, OnMovementInform);
 
     auto gameobject_events = state.new_usertype<TSEvents::GameObjectEvents>("GameObjectEvents");
     LUA_MAPPED_HANDLE(gameobject_events, GameObjectEvents, OnUpdate);
@@ -367,6 +367,7 @@ void TSLua::load_events(sol::state& state)
     LUA_MAPPED_HANDLE(item_events, ItemEvents, OnLFGRollEarly);
     LUA_MAPPED_HANDLE(item_events, ItemEvents, OnDestroyEarly);
     LUA_MAPPED_HANDLE(item_events, ItemEvents, OnTakenAsLoot);
+    LUA_MAPPED_HANDLE(item_events, ItemEvents, OnCalculateFeralAttackPower);
 
     auto quest_events = state.new_usertype<TSEvents::QuestEvents>("QuestEvents");
     LUA_MAPPED_HANDLE(quest_events, QuestEvents, OnAccept);
@@ -423,4 +424,5 @@ void TSLua::load_events(sol::state& state)
     lua_events["Condition"] = &TSEvents::Condition;
     lua_events["CustomPacket"] = &TSEvents::CustomPacket;
     lua_events["WorldPacket"] = &TSEvents::WorldPacket;
+    lua_events["GameObject"] = &TSEvents::GameObject;
 }

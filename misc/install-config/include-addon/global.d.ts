@@ -2286,7 +2286,7 @@ declare function UnitPowerMax(unitId: WoWAPI.UnitId, powerType: number): number;
  * @see https://wow.gamepedia.com/API_UnitAura
  */
 // tslint:disable-next-line max-line-length
-declare function UnitAura(unitId: WoWAPI.UnitId, index: number, filter?: WoWAPI.BuffFilterType & string): LuaMultiReturn<[string, WoWAPI.TexturePath, number, WoWAPI.DebuffType, number, number, WoWAPI.UnitId, boolean, boolean, number, boolean, boolean, boolean, boolean, number]>;
+declare function UnitAura(unitId: WoWAPI.UnitId, index: number, rank?: number, filter?: WoWAPI.BuffFilterType & string): LuaMultiReturn<[string, string, WoWAPI.TexturePath, number, WoWAPI.DebuffType, number, number, WoWAPI.UnitId, boolean, boolean, number]>;
 
 /**
  * Retrieve info about a certain buff on a certain unit
@@ -3675,6 +3675,8 @@ declare function RepairAllItems(guildBankRepair?:boolean):void;
 declare function ShowMerchantSellCursor(index:number):void;
 declare function ShowRepairCursor():void;
 declare function GetNumBuybackItems():number;
+
+declare function SetPortraitToTexture(texture:WoWAPI.Texture,path:string):void;
 
 declare const MAX_PLAYER_LEVEL_TABLE: {
     LE_EXPANSION_CLASSIC: 60,
@@ -12541,7 +12543,7 @@ declare namespace WoWAPI {
         IsForbidden(): boolean;
     }
 
-    interface AnimationGroup extends UIObject {
+    interface AnimationGroup extends UIObject, AnimationGroupHookScript, AnimationGroupSetScript {
         Play(): void;
         Pause(): void;
         Stop(): void;
@@ -12561,7 +12563,7 @@ declare namespace WoWAPI {
         CreateAnimation(frameType: "Translation", frameName?: string, inheritFrom?: WoWAPI.UIObject): WoWAPI.Translation;
     }
 
-    interface Animation extends UIObject {
+    interface Animation extends UIObject, AnimationHookScript, AnimationSetScript {
         Play(): void;
         Pause(): void;
         Stop(): void;
@@ -12719,9 +12721,12 @@ declare namespace WoWAPI {
         GetBottom(): number;
 
         /**
-         * Get the coordinates of the center of this frame - Moved in 1.10.
+         * Returns the distance from the bottom-left corner of the screen to the center of a Region, using the region's own coordinate space (ie, dependent on effective scale).
+         *
+         * @see https://wow.gamepedia.com/API_Region_GetPoint
+         * @returns number, number
          */
-        GetCenter(): number;
+        GetCenter(): LuaMultiReturn<[number, number]>;
 
         /**
          * Returns the distance from the bottom/left edge of the screen to the requested edge of an object, scaled with the objects's effective scale.
@@ -12903,8 +12908,8 @@ declare namespace WoWAPI {
         /**
          * Modifies the region of a texture drawn by the Texture widget.
          */
-        SetTextCoord(left: number, right: number, top: number, bottom: number): void;
-        SetTextCoord(ULx: number, ULy: number, LLx: number, LLy: number, URx: number, URy: number, LRx: number, LRy: number): void;
+        SetTexCoord(left: number, right: number, top: number, bottom: number): void;
+        SetTexCoord(ULx: number, ULy: number, LLx: number, LLy: number, URx: number, URy: number, LRx: number, LRy: number): void;
 
         /**
          * Changes the texture of a Texture widget.
@@ -13041,6 +13046,54 @@ declare namespace WoWAPI {
         SetScript(event: "OnTooltipSetUnit", handler: (tooltip: GameTooltip) => void): void;
     }
 	
+	interface ScriptObjectHookScript {
+        HookScript(event: Event.OnAny, handler: (frame: T, ...args: any[]) => void): void;
+        HookScript(event: "OnLoad", handler: (self: T) => void): void;
+		HookScript(event: "OnUpdate", handler: (self: T, elapsed:number) => void): void;
+    }
+	interface ScriptObjectSetScript {
+        SetScript(event: Event.OnAny, handler: (frame: T, ...args: any[]) => void): void;
+        SetScript(event: "OnLoad", handler: (self: T) => void): void;
+		SetScript(event: "OnUpdate", handler: (self: T, elapsed:number) => void): void;
+    }
+	
+	interface AnimationHookScript extends ScriptObjectHookScript {
+		HookScript(event: Event.OnAny, handler: (frame: T, ...args: any[]) => void): void;
+		HookScript(event: "OnFinished", handler: (self: T, requested: boolean) => void): void;
+		HookScript(event: "OnPause", handler: (self: T) => void): void;
+		HookScript(event: "OnPlay", handler: (self: T) => void): void;
+		HookScript(event: "OnStop", handler: (self: T, requested:boolean) => void): void;
+		
+	}
+	
+	interface AnimationSetScript extends ScriptObjectSetScript {
+	    SetScript(event: Event.OnAny, handler: (frame: T, ...args: any[]) => void): void;
+        SetScript(event: "OnFinished", handler: (self: T, requested: boolean) => void): void;
+		SetScript(event: "OnPause", handler: (self: T) => void): void;
+		SetScript(event: "OnPlay", handler: (self: T) => void): void;
+		SetScript(event: "OnStop", handler: (self: T, requested:boolean) => void): void;
+	}
+	
+	interface AnimationGroupHookScript extends ScriptObjectHookScript {
+		HookScript(event: Event.OnAny, handler: (frame: T, ...args: any[]) => void): void;
+		HookScript(event: "OnFinished", handler: (self: T, requested: boolean) => void): void;
+		HookScript(event: "OnPause", handler: (self: T) => void): void;
+		HookScript(event: "OnPlay", handler: (self: T) => void): void;
+		HookScript(event: "OnStop", handler: (self: T, requested:boolean) => void): void;
+		HookScript(event: "OnLoop", handler: (self: T, loopState:number) => void): void;
+		
+	}
+	
+	interface AnimationGroupSetScript extends ScriptObjectSetScript {
+	    SetScript(event: Event.OnAny, handler: (frame: T, ...args: any[]) => void): void;
+        SetScript(event: "OnFinished", handler: (self: T, requested: boolean) => void): void;
+		SetScript(event: "OnPause", handler: (self: T) => void): void;
+		SetScript(event: "OnPlay", handler: (self: T) => void): void;
+		SetScript(event: "OnStop", handler: (self: T, requested:boolean) => void): void;
+		SetScript(event: "OnLoop", handler: (self: T, loopState:number) => void): void;
+	}
+	
+	
     interface Backdrop {
         /**
          * Which texture file to use as frame background (.blp or .tga format)
@@ -13137,6 +13190,22 @@ declare namespace WoWAPI {
          * Returns the Frame Strata the frame is in.
          */
         GetFrameStrata(): FrameStrata;
+        
+        /**
+         * Returns the region's scale relative to its immediate parent (if it has one)
+         * 3.3.5a Frame:GetScale() and Frame:GetEffectiveScale not Region:
+         * @see https://wowpedia.fandom.com/wiki/API_Region_GetScale
+         * @returns number
+         */
+        GetScale()
+
+        /**
+         * Returns the region's net scale, inclusive of its parent's effective scale
+         * 3.3.5a Frame:GetScale() and Frame:GetEffectiveScale not Region:
+         * @see https://wowpedia.fandom.com/wiki/API_Region_GetScale
+         * @returns number
+         */
+        GetEffectiveScale()
 
         /**
          * returns whether the flag is enabled or not
@@ -13914,6 +13983,19 @@ declare function CreateFrame(frameType: "Minimap", frameName?: string, parentFra
 declare function CreateFrame(frameType: "MessageFrame", frameName?: string, parentFrame?: WoWAPI.UIObject, inheritsFrame?: string, id?: number): WoWAPI.MessageFrame;
 declare function CreateFrame(frameType: "Cooldown", frameName?: string, parentFrame?: WoWAPI.UIObject, inheritsFrame?: string, id?: number): WoWAPI.Cooldown;
 declare function CreateFrame(frameType: "ColorSelect", frameName?: string, parentFrame?: WoWAPI.UIObject, inheritsFrame?: string, id?: number): WoWAPI.ColorSelect;
+
+/**
+ * Draws a line with the defined texture between two points.
+ * @param texture WoWAPI.Texture to use, texture path example "Interface\\TaxiFrame\\UI-Taxi-Line"
+ * @param canvasFrame Canvas Frame (for anchoring)
+ * @param sx X position for the start point of the line
+ * @param sy Y position for the start point of the line
+ * @param ex X position for the end point of the line
+ * @param ey Y position for the end point of the line
+ * @param width Width of the line
+ * @param relPoint Relative point on canvas to interpret coords (Default BOTTOMLEFT)
+ */
+declare function DrawRouteLine(texture:WoWAPI.Texture, canvasFrame:WoWAPI.Frame, sx:number, sy:number, ex:number, ey:number, width:number, relPoint?:WoWAPI.Point);
 
 /**
  * Adds a configuration panel (with the fields described in #Panel fields below set) to the category list.

@@ -28,6 +28,7 @@ import { AreaTriggerRegistry } from "./std/AreaTrigger/AreaTrigger";
 import { BroadcastTextRegistry } from "./std/BroadcastText/BroadcastText";
 import { CreatureTextRegistry } from "./std/BroadcastText/CreatureText";
 import { ClassRegistry } from "./std/Class/ClassRegistry";
+import { CreatureDisplayInfoRegistry } from "./std/Creature/CreatureDisplayInfo";
 import { CreatureInstanceRegistry, CreatureTemplateRegistry } from "./std/Creature/Creatures";
 import { CreatureOutfitsRegistry } from "./std/CreatureOutfits/CreatureOutfitsRegistry";
 import { CurrencyRegistry } from "./std/Currency/Currency";
@@ -69,6 +70,7 @@ import { EquipSkills } from "./std/SkillLines/EquipSkills";
 import { SkillLineRegistry } from "./std/SkillLines/SkillLines";
 import { SkillTiersRegistry } from "./std/SkillTiers/SkillTiers";
 import { SmartScripts } from "./std/SmartScript/SmartScript";
+import { ActionListRegistry } from "./std/SmartScript/TimedActionList";
 import { SoundAmbienceRegistry } from "./std/Sound/SoundAmbience";
 import { SoundEntryRegistry } from "./std/Sound/SoundEntry";
 import { ZoneIntroMusicRegistry } from "./std/Sound/ZoneIntroMusic";
@@ -113,6 +115,7 @@ export const std = {
     /** Individual creatures placed in the world */
     CreatureInstances: CreatureInstanceRegistry,
     CreatureOutfits: CreatureOutfitsRegistry,
+    CreatureDisplayInfo: CreatureDisplayInfoRegistry,
     TalentTrees: TalentTreeRegistry,
     Factions: FactionRegistry,
     Scripts: SmartScripts,
@@ -184,6 +187,7 @@ export const std = {
     SpawnGroups: SpawnGroupRegistry,
     InlineScripts: InlineScript,
     Tags: Tags,
+    TimedActionListBuilder: ActionListRegistry,
     isReadOnly: BuildArgs.READ_ONLY,
     DBC: _DBC,
     /** Used to load external dbc files for conversion purposes. */
