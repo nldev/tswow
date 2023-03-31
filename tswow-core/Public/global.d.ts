@@ -166,12 +166,6 @@ declare const enum GlyphMask /**@realType:uint32 */ {
 
 declare const enum TriggerCastFlags { } /** SpellDefines.h:TriggerCastFlags */
 
-    set(value: T) : void;
-}
-
-    FRIENDLY = 2,
-}
-
 declare const enum DiminishingLevels {
     DIMINISHING_LEVEL_1            = 0,
     DIMINISHING_LEVEL_2            = 1,
@@ -179,12 +173,6 @@ declare const enum DiminishingLevels {
     DIMINISHING_LEVEL_IMMUNE       = 3,
     DIMINISHING_LEVEL_4            = 3,
     DIMINISHING_LEVEL_TAUNT_IMMUNE = 4,
-};
-
-declare interface TSMutable<T> {
-    constructor(field: T);
-    get() : T;
-    set(value: T) : void;
 }
 
 declare const enum Attitude {
@@ -3961,7 +3949,7 @@ declare interface TSMap extends TSEntityProvider, TSWorldEntityProvider<TSMap> {
 
     /**
      * Check if 2 positions are within LoS of each other, following different checks.
-     * 
+     *
      * @param x1
      * @param y1
      * @param z1
@@ -6117,10 +6105,10 @@ declare interface TSUnit extends TSWorldObject {
 
     /**
      * Returns true if the [Unit] is outdoors.
-     * 
+     *
      * @return bool isOutdoors
      */
-    
+
     IsOutdoors() : bool
 
     /**
@@ -6542,7 +6530,7 @@ declare interface TSUnit extends TSWorldObject {
 
     /**
      * Resets the cooldown of a specific spell
-     * @param spellId 
+     * @param spellId
      * @param update = false
      */
     ResetCooldown(spellId: uint32, update?: boolean);
@@ -6598,7 +6586,7 @@ declare interface TSUnit extends TSWorldObject {
 
     /**
      * Return angle towards point given from Unit.
-     * 
+     *
      * @param x
      * @param y
      */
@@ -8114,36 +8102,35 @@ declare namespace _hidden {
             , attacker: TSWorldObject
             , defender: TSUnit
         ) => void): T
-
         OnCalcMeleeResult(callback: (
             spell: TSSpellInfo
             , attacker: TSUnit
             , victim: TSUnit
-            , result: TSMutable<SpellMissInfo>
-            , attType: WeaponAttackType
-            , resistChance: uint32
-            , deflectChance: uint32
-            , parryChance: uint32
-            , dodgeChance: uint32
-            , blockChance: uint32
-            , missChance: uint32
-            , hitChance: uint32
-            , skillDiff: int32
+            , result: TSMutableNumber<SpellMissInfo>
+            , attType: TSNumber<WeaponAttackType>
+            , resistChance: TSNumber<uint32>
+            , deflectChance: TSNumber<uint32>
+            , parryChance: TSNumber<uint32>
+            , dodgeChance: TSNumber<uint32>
+            , blockChance: TSNumber<uint32>
+            , missChance: TSNumber<uint32>
+            , hitChance: TSNumber<uint32>
+            , skillDiff: TSNumber<int32>
         ) => void): T
         OnCalcMeleeResult(id: EventID, callback: (
             spell: TSSpellInfo
             , attacker: TSUnit
             , victim: TSUnit
-            , result: TSMutable<SpellMissInfo>
-            , attType: WeaponAttackType
-            , resistChance: uint32
-            , deflectChance: uint32
-            , parryChance: uint32
-            , dodgeChance: uint32
-            , blockChance: uint32
-            , missChance: uint32
-            , hitChance: uint32
-            , skillDiff: int32
+            , result: TSMutableNumber<SpellMissInfo>
+            , attType: TSNumber<WeaponAttackType>
+            , resistChance: TSNumber<uint32>
+            , deflectChance: TSNumber<uint32>
+            , parryChance: TSNumber<uint32>
+            , dodgeChance: TSNumber<uint32>
+            , blockChance: TSNumber<uint32>
+            , missChance: TSNumber<uint32>
+            , hitChance: TSNumber<uint32>
+            , skillDiff: TSNumber<int32>
         ) => void): T
 
         OnCalcSpellPowerLevelPenalty(callback: (
@@ -8246,6 +8233,12 @@ declare namespace _hidden {
 
         OnResistAbsorbCalculate(callback: (spelL: TSSpell, damage: TSDamageInfo, resistAmount: TSMutableNumber<uint32>, absorbAmount: TSMutableNumber<int32>, cancel: TSMutable<boolean,boolean> )=>void)
         OnResistAbsorbCalculate(id: EventID, callback: (spelL: TSSpell, damage: TSDamageInfo, resistAmount: TSMutableNumber<uint32>, absorbAmount: TSMutableNumber<int32>, cancel: TSMutable<boolean,boolean> )=>void)
+
+        OnDetermineGlobalCooldown(callback: (spell: TSSpell, gcd: TSMutableNumber<int32>)=>void)
+        OnDetermineGlobalCooldown(id: EventID, callback: (spell: TSSpell, gcd: TSMutableNumber<int32>)=>void)
+
+        OnPeriodicRemoveAura(callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, flags: TSNumber<uint32>) => void);
+        OnPeriodicRemoveAura(id: EventID, callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, flags: TSNumber<uint32>) => void);
     }
 
     export class Creature<T> {
@@ -8637,13 +8630,13 @@ declare namespace _hidden {
         OnCalcMeleeOutcome(callback: (
               attacker: TSUnit
             , victim: TSUnit
-            , missChance: TSMutable<float>
-            , critChance: TSMutable<float>
-            , dodgeChance: TSMutable<float>
-            , blockChance : TSMutable<float>
-            , parryChance: TSMutable<float>
-            , glancingChance: TSMutable<float>
-            , crushingChance: TSMutable<float>
+            , missChance: TSMutableNumber<float>
+            , critChance: TSMutableNumber<float>
+            , dodgeChance: TSMutableNumber<float>
+            , blockChance : TSMutableNumber<float>
+            , parryChance: TSMutableNumber<float>
+            , glancingChance: TSMutableNumber<float>
+            , crushingChance: TSMutableNumber<float>
             , attackType: WeaponAttackType
         )=>void)
 
@@ -8685,7 +8678,8 @@ declare namespace _hidden {
         OnEnterCombatWith(callback: (me: TSUnit, other: TSUnit)=>void);
         OnExitCombatWith(callback: (me: TSUnit, other: TSUnit)=>void);
         OnSetTarget(callback: (me: TSUnit, selection: uint64, oldSelection: uint64) => void);
-        OnApplyDiminishingReturn(callback: (target: TSUnit, caster: TSWorldObject, info: TSSpellInfo, duration: TSMutable<int32>, oldDuration: int32, level: DiminishingLevels, mod: float) => void);
+
+        OnApplyDiminishingReturn(callback: (target: TSUnit, caster: TSWorldObject, info: TSSpellInfo, duration: TSMutableNumber<int32>, oldDuration: int32, level: DiminishingLevels, mod: float) => void);
     }
 
     export class Battleground<T> {

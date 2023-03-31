@@ -451,7 +451,7 @@ struct TSEvents
             , TSUnit target
             , TSWorldObject caster
             , TSSpellInfo info
-            , TSMutable<int32> duration
+            , TSMutableNumber<int32> duration
             , TSNumber<int32> oldDuration
             , TSNumber<uint8> level
             , TSNumber<float> mod
@@ -514,7 +514,6 @@ struct TSEvents
         ID_EVENT(OnEffectManaShield, TSAuraEffect, TSAuraApplication, TSDamageInfo, TSMutableNumber<uint32> absorbAmount, TSMutable<bool,bool> cancelDefault)
         ID_EVENT(OnEffectSplit, TSAuraEffect, TSAuraApplication, TSDamageInfo, TSMutableNumber<uint32> splitAmount, TSMutable<bool,bool> cancelDefault)
 
-        ID_EVENT(OnPeriodicRemoveAura, TSSpellInfo, TSAura, TSMutable<bool>)
         ID_EVENT(OnAfterCast, TSSpell, TSMutable<bool,bool> cancelDefault)
         ID_EVENT(OnAfterHit, TSSpell, TSMutable<bool,bool> cancelDefault)
         ID_EVENT(OnBeforeCast, TSSpell, TSMutable<bool,bool> cancelDefault)
@@ -523,6 +522,9 @@ struct TSEvents
         ID_EVENT(OnObjectAreaTargetSelect, TSSpell, TSWorldObjectCollection, TSNumber<uint32> index, TSSpellImplicitTargetInfo, TSMutable<bool,bool> cancelDefault)
         ID_EVENT(OnObjectTargetSelect, TSSpell, TSMutableWorldObject, TSNumber<uint32> index, TSSpellImplicitTargetInfo, TSMutable<bool,bool> cancelDefault)
         ID_EVENT(OnOnResistAbsorbCalculate, TSSpell, TSDamageInfo, TSMutableNumber<uint32> resistAmount, TSMutableNumber<int32> absorbAmount, TSMutable<bool,bool> cancelDefault)
+        ID_EVENT(OnDetermineGlobalCooldown, TSSpell, TSMutableNumber<int32>)
+        ID_EVENT(OnCalcMeleeResult, TSSpellInfo, TSUnit, TSUnit, TSMutableNumber<uint32>, TSNumber<uint8>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<int32>)
+        ID_EVENT(OnPeriodicRemoveAura, TSSpellInfo, TSAura, TSMutable<bool,bool>, TSNumber<uint32>)
     } Spell;
 
     struct CreatureEvents : public TSMappedEventsRegistry
