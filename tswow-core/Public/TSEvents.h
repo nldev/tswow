@@ -447,15 +447,7 @@ struct TSEvents
         EVENT(OnExitCombat, TSUnit unit)
         EVENT(OnEnterCombatWith, TSUnit me, TSUnit other)
         EVENT(OnExitCombatWith, TSUnit me, TSUnit other)
-        EVENT(OnApplyDiminishingReturn
-            , TSUnit target
-            , TSWorldObject caster
-            , TSSpellInfo info
-            , TSMutableNumber<int32> duration
-            , TSNumber<int32> oldDuration
-            , TSNumber<uint8> level
-            , TSNumber<float> mod
-        )
+        EVENT(OnApplyDiminishingReturn, TSUnit target, TSWorldObject caster, TSSpellInfo info, TSMutableNumber<int32> duration)
         EVENT(OnSetTarget, TSUnit, TSNumber<uint64> new_target, TSNumber<uint64> old_target)
     } Unit;
 
@@ -523,8 +515,9 @@ struct TSEvents
         ID_EVENT(OnObjectTargetSelect, TSSpell, TSMutableWorldObject, TSNumber<uint32> index, TSSpellImplicitTargetInfo, TSMutable<bool,bool> cancelDefault)
         ID_EVENT(OnOnResistAbsorbCalculate, TSSpell, TSDamageInfo, TSMutableNumber<uint32> resistAmount, TSMutableNumber<int32> absorbAmount, TSMutable<bool,bool> cancelDefault)
         ID_EVENT(OnDetermineGlobalCooldown, TSSpell, TSMutableNumber<int32>)
-        ID_EVENT(OnCalcMeleeResult, TSSpellInfo, TSUnit, TSUnit, TSMutableNumber<uint32>, TSNumber<uint8>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<int32>)
         ID_EVENT(OnPeriodicRemoveAura, TSSpellInfo, TSAura, TSMutable<bool,bool>, TSNumber<uint32>)
+        ID_EVENT(OnInterruptAura, TSSpellInfo, TSAura, TSMutable<bool,bool>, TSNumber<uint32>)
+        ID_EVENT(OnCalcMeleeResult, TSSpellInfo, TSUnit, TSUnit, TSMutableNumber<uint32>, TSNumber<uint8>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<int32>)
     } Spell;
 
     struct CreatureEvents : public TSMappedEventsRegistry

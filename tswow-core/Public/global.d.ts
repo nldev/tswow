@@ -8239,6 +8239,9 @@ declare namespace _hidden {
 
         OnPeriodicRemoveAura(callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, flags: TSNumber<uint32>) => void);
         OnPeriodicRemoveAura(id: EventID, callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, flags: TSNumber<uint32>) => void);
+
+        OnInterruptAura(callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, except: TSNumber<uint32>) => void);
+        OnInterruptAura(id: EventID, callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, except: TSNumber<uint32>) => void);
     }
 
     export class Creature<T> {
@@ -8679,7 +8682,7 @@ declare namespace _hidden {
         OnExitCombatWith(callback: (me: TSUnit, other: TSUnit)=>void);
         OnSetTarget(callback: (me: TSUnit, selection: uint64, oldSelection: uint64) => void);
 
-        OnApplyDiminishingReturn(callback: (target: TSUnit, caster: TSWorldObject, info: TSSpellInfo, duration: TSMutableNumber<int32>, oldDuration: int32, level: DiminishingLevels, mod: float) => void);
+        OnApplyDiminishingReturn(callback: (target: TSUnit, caster: TSWorldObject, info: TSSpellInfo, duration: TSMutableNumber<int32>) => void);
     }
 
     export class Battleground<T> {
