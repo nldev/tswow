@@ -5,7 +5,7 @@
 #include <regex>
 #include "document.hpp"
 #include <fstream>
-    
+
 static std::map<std::filesystem::path, sol::table> modules;
 static std::vector<std::filesystem::path> file_stack;
 static std::filesystem::path cur_module;
@@ -335,7 +335,6 @@ void TSLua::Load()
         "function TSClass.prototype.____constructor(self) end\n"
         "return TSClass"
     );
-    state.script("print(\"hello_test\")");
 
     for (auto const& entry : std::filesystem::directory_iterator(LuaRoot()))
     {
