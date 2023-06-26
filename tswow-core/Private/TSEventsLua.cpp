@@ -212,6 +212,7 @@ void TSLua::load_events(sol::state& state)
     LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnDetermineGlobalCooldown);
     LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnPeriodicRemoveAura);
     LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnInterruptAura);
+    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnRemoveAura);
     LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnCalcMeleeResult);
 
     auto creature_events = state.new_usertype<TSEvents::CreatureEvents>("CreatureEvents");

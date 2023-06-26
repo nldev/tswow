@@ -2535,6 +2535,11 @@ void TSUnit::SetArmor(int32 val)
     unit->SetArmor(val);
 }
 
+bool TSUnit::HasAuraState(uint32 state)
+{
+    return unit->HasUnitState(state);
+}
+
 bool TSUnit::HasAuraType(uint32 type)
 {
     return unit->HasAuraType(static_cast<AuraType>(type));

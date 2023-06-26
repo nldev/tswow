@@ -149,6 +149,8 @@ declare const enum SpellEffects { } /** SharedDefines.h:SpellEffects */
 
 declare const enum AuraType { } /** SpellAuraDefines.h:AuraType */
 
+declare const enum AuraStateType { } /** SharedDefines.h:AuraStateType */
+
 declare const enum SpellEffIndex { } /** SharedDefines.h:SpellEffIndex */
 
 declare const enum SpellEffectHandleMode { } /** Spell.h:SpellEffectHandleMode */
@@ -5820,6 +5822,7 @@ declare interface TSUnit extends TSWorldObject {
     SetResistance(school: uint32, val: int32): TSNumber<uint32>
     SetArmor(val: int32): TSNumber<uint32>
 
+    HasAuraState(type: AuraStateType): bool
     HasAuraType(type: AuraType): bool
 
     /**
@@ -8242,6 +8245,9 @@ declare namespace _hidden {
 
         OnInterruptAura(callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, except: TSNumber<uint32>) => void);
         OnInterruptAura(id: EventID, callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, except: TSNumber<uint32>) => void);
+
+        OnRemoveAura(callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, spell: TSNumber<uint32>) => void);
+        OnRemoveAura(id: EventID, callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, spell: TSNumber<uint32>) => void);
     }
 
     export class Creature<T> {
