@@ -479,6 +479,7 @@ struct TSEvents
         ID_EVENT(OnCalcMiss, TSSpell, TSUnit, TSMutableNumber<uint32>, TSMutableNumber<uint32>)
         ID_EVENT(OnCalcCrit, TSSpell, TSMutableNumber<float>)
         ID_EVENT(OnCalcAuraCrit, TSAuraEffect, TSMutableNumber<float>)
+        ID_EVENT(OnCrit, TSSpell, TSMutable<bool,bool>)
         ID_EVENT(OnCalcReflect, TSSpellInfo, TSMutableNumber<int32>, TSWorldObject, TSUnit)
         ID_EVENT(OnCalcHit, TSSpellInfo, TSMutableNumber<int32>, TSWorldObject, TSUnit)
         ID_EVENT(OnCalcResist, TSSpellInfo, TSMutableNumber<int32>, TSWorldObject, TSUnit)

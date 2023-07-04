@@ -8056,6 +8056,9 @@ declare namespace _hidden {
         /** critChance should be between 0 and 1 */
         OnCalcCrit(id: EventID, callback : (spelL: TSSpell, chance: TSMutableNumber<float>)=>void): T
 
+        OnCrit(callback : (spell: TSSpell, isCrit: TSMutable<bool,bool>)=>void): T
+        OnCrit(id: EventID, callback : (spell: TSSpell, isCrit: TSMutable<bool,bool>)=>void): T
+
         /** critChance should be between 0 and 1 */
         OnCalcAuraCrit(callback : (aura: TSAuraEffect, chance: TSMutableNumber<float>)=>void): T
         /** critChance should be between 0 and 1 */
