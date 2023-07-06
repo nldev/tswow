@@ -518,8 +518,14 @@ struct TSEvents
         ID_EVENT(OnDetermineGlobalCooldown, TSSpell, TSMutableNumber<int32>)
         ID_EVENT(OnPeriodicRemoveAura, TSSpellInfo, TSAura, TSMutable<bool,bool>, TSNumber<uint32>)
         ID_EVENT(OnInterruptAura, TSSpellInfo, TSAura, TSMutable<bool,bool>, TSNumber<uint32>)
-        ID_EVENT(OnRemoveAura, TSSpellInfo, TSAura, TSMutable<bool,bool>, TSNumber<uint32>)
+        ID_EVENT(OnRemoveAuraDueToSpell, TSSpellInfo, TSAura, TSMutable<bool,bool>, TSNumber<uint32>)
         ID_EVENT(OnCalcMeleeResult, TSSpellInfo, TSUnit, TSUnit, TSMutableNumber<uint32>, TSNumber<uint8>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<int32>)
+        ID_EVENT(OnPreprocessSpellHit, TSSpell, TSMutable<bool,bool>, TSMutableNumber<uint32>)
+        ID_EVENT(OnRemoveAura, TSAura, TSMutable<bool,bool>)
+        ID_EVENT(OnRemoveAuraByApplication, TSAuraApplication, TSMutable<bool,bool>)
+        ID_EVENT(OnRemoveAuraByIterator, TSAuraApplication, TSMutable<bool,bool>)
+        ID_EVENT(OnRemoveOwnedAura, TSAura, TSMutable<bool,bool>, bool, bool, TSNumber<uint32>)
+        ID_EVENT(OnRemoveAuraFromCharges, TSAura, TSMutable<bool,bool>)
     } Spell;
 
     struct CreatureEvents : public TSMappedEventsRegistry

@@ -213,8 +213,14 @@ void TSLua::load_events(sol::state& state)
     LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnDetermineGlobalCooldown);
     LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnPeriodicRemoveAura);
     LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnInterruptAura);
-    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnRemoveAura);
+    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnRemoveAuraDueToSpell);
     LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnCalcMeleeResult);
+    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnPreprocessSpellHit);
+    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnRemoveAura);
+    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnRemoveAuraByApplication);
+    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnRemoveAuraByIterator);
+    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnRemoveOwnedAura);
+    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnRemoveAuraFromCharges);
 
     auto creature_events = state.new_usertype<TSEvents::CreatureEvents>("CreatureEvents");
     LUA_MAPPED_HANDLE(creature_events, CreatureEvents, OnMoveInLOS);

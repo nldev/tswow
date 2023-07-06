@@ -8243,14 +8243,32 @@ declare namespace _hidden {
         OnDetermineGlobalCooldown(callback: (spell: TSSpell, gcd: TSMutableNumber<int32>)=>void)
         OnDetermineGlobalCooldown(id: EventID, callback: (spell: TSSpell, gcd: TSMutableNumber<int32>)=>void)
 
-        OnPeriodicRemoveAura(callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, flags: TSNumber<uint32>) => void);
-        OnPeriodicRemoveAura(id: EventID, callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, flags: TSNumber<uint32>) => void);
+        OnPeriodicRemoveAura(callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, flags: TSNumber<uint32>)=>void);
+        OnPeriodicRemoveAura(id: EventID, callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, flags: TSNumber<uint32>)=>void);
 
-        OnInterruptAura(callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, except: TSNumber<uint32>) => void);
-        OnInterruptAura(id: EventID, callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, except: TSNumber<uint32>) => void);
+        OnInterruptAura(callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, except: TSNumber<uint32>)=>void);
+        OnInterruptAura(id: EventID, callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, except: TSNumber<uint32>)=>void);
 
-        OnRemoveAura(callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, spell: TSNumber<uint32>) => void);
-        OnRemoveAura(id: EventID, callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, spell: TSNumber<uint32>) => void);
+        OnRemoveAuraDueToSpell(callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, spell: TSNumber<uint32>)=>void);
+        OnRemoveAuraDueToSpell(id: EventID, callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, spell: TSNumber<uint32>)=>void);
+
+        OnPreprocessSpellHit(callback: (spell: TSSpell, isOverride: TSMutable<bool,bool>, miss: TSMutableNumber<SpellMissInfo>)=>void);
+        OnPreprocessSpellHit(id: EventID, callback: (spell: TSSpell, isOverride: TSMutable<bool,bool>, miss: TSMutableNumber<SpellMissInfo>)=>void);
+
+        OnRemoveAura(callback: (aura: TSAura, cancel: TSMutable<bool,bool>)=>void);
+        OnRemoveAura(id: EventID, callback: (aura: TSAura, cancel: TSMutable<bool,bool>)=>void);
+
+        OnRemoveAuraByApplication(callback: (auraApplication: TSAuraApplication, cancel: TSMutable<bool,bool>)=>void);
+        OnRemoveAuraByApplication(id: EventID, callback: (auraApplication: TSAuraApplication, cancel: TSMutable<bool,bool>)=>void);
+
+        OnRemoveAuraByIterator(callback: (auraApplication: TSAuraApplication, cancel: TSMutable<bool,bool>)=>void);
+        OnRemoveAuraByIterator(id: EventID, callback: (auraApplication: TSAuraApplication, cancel: TSMutable<bool,bool>)=>void);
+
+        OnRemoveOwnedAura(callback: (aura: TSAura, cancel: TSMutable<bool,bool>, isRemoved: bool, isExpired: bool, removeMode: uint32)=>void);
+        OnRemoveOwnedAura(id: EventID, callback: (aura: TSAura, cancel: TSMutable<bool,bool>, isRemoved: bool, isExpired: bool, removeMode: uint32)=>void);
+
+        OnRemoveAuraFromCharges(callback: (aura: TSAura, cancel: TSMutable<bool,bool>)=>void);
+        OnRemoveAuraFromCharges(id: EventID, callback: (aura: TSAura, cancel: TSMutable<bool,bool>)=>void);
     }
 
     export class Creature<T> {
