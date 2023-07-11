@@ -2698,6 +2698,11 @@ void TSUnit::StartCooldown(uint32 spell, uint32 item, TSSpell spl, bool onHold)
     unit->GetSpellHistory()->StartCooldown(sSpellMgr->AssertSpellInfo(spell), item, spl.spell, onHold);
 }
 
+TSNumber<float> TSUnit::GetTotalAttackPowerValue(uint8 weaponAttackType)
+{
+    return unit->GetTotalAttackPowerValue(static_cast<WeaponAttackType>(weaponAttackType));
+}
+
 void TSUnit::LockSpellSchool(uint32 schoolMask, uint32 lockoutTime)
 {
     unit->GetSpellHistory()->LockSpellSchool(SpellSchoolMask(schoolMask), lockoutTime);

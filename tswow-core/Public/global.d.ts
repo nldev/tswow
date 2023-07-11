@@ -7281,6 +7281,8 @@ declare interface TSUnit extends TSWorldObject {
      */
     AddThreat(victim : TSUnit,threat : float,spell? : uint32,schoolMask? : SpellSchoolMask | uint32, ignoreModifiers?: boolean, ignoreRedirects?: boolean, raw?: boolean) : void
     ScaleThreat(victim: TSUnit, scale: float, raw?: boolean)
+
+    GetTotalAttackPowerValue(weaponAttackType: WeaponAttackType) : TSNumber<float>
 }
 
 declare interface TSItemTemplate extends TSEntityProvider {
