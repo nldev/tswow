@@ -156,6 +156,7 @@ void TSLua::load_events(sol::state& state)
     LUA_HANDLE(unit_events, UnitEvents, OnExitCombatWith);
     LUA_HANDLE(unit_events, UnitEvents, OnSetTarget);
     LUA_HANDLE(unit_events, UnitEvents, OnApplyDiminishingReturn);
+    LUA_HANDLE(unit_events, UnitEvents, OnCanDetectStealth);
 
     auto spell_events = state.new_usertype<TSEvents::SpellEvents>("SpellEvents");
     LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnCast);

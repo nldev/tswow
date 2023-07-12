@@ -449,6 +449,7 @@ struct TSEvents
         EVENT(OnExitCombatWith, TSUnit me, TSUnit other)
         EVENT(OnApplyDiminishingReturn, TSUnit target, TSWorldObject caster, TSSpellInfo info, TSMutableNumber<int32> duration)
         EVENT(OnSetTarget, TSUnit, TSNumber<uint64> new_target, TSNumber<uint64> old_target)
+        EVENT(OnCanDetectStealth, TSUnit, TSWorldObject, TSMutableNumber<int32>, TSMutableNumber<int32>)
     } Unit;
 
     struct SpellEvents : public TSMappedEventsRegistry
