@@ -4282,3 +4282,24 @@ bool TSPlayer::HasRunes()
 {
     return player->HasRunes();
 }
+
+
+TSGuild TSPlayer::CreateGuild(std::string const& name)
+{
+    auto guild = new Guild;
+    if (player->GetGuildId())
+    {
+        auto existing = TSGuild(player->GetGuild());
+        auto isGM = player->IsGuildMaster();
+        existing.DeleteMember(player, false);
+        if (isGM) existing->Disband();
+    }
+    if (!guild->Create(player, name))
+    {
+        delete guild;
+        return TSGuild(guild);
+    }
+    sGuildMgr->AddGuild(guild);
+    Guild::SendCommandResult(player->GetSession(), GUILD_COMMAND_CREATE, ERR_GUILD_COMMAND_SUCCESS, name);
+    return TSGuild(guild);
+}

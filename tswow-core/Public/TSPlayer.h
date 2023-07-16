@@ -358,6 +358,8 @@ public:
 
 	TSOutfit GetOutfitCopy(uint32_t settings = Outfit::EVERYTHING, int32_t race = -1, int32_t gender = -1);
 
+  TSGuild CreateGuild(std::string const& name);
+
 private:
 		TSLua::Dictionary<TSNumber<uint32>, TSPlayerSpell> LGetSpellMap();
 		friend class TSLua;

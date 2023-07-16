@@ -2212,6 +2212,8 @@ declare interface TSPlayer extends TSUnit, TSDBJsonProvider {
 
     GetFace(): TSNumber<uint8>;
     SetFace(face: uint8);
+
+    CreateGuild(name: string);
 }
 
 declare interface TSCorpse extends TSWorldObject {
