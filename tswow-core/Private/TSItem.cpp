@@ -269,7 +269,7 @@ std::string TSItem::GetItemLink(uint8 locale)
         std::array<char const*, 16> const* suffix = NULL;
         if (itemRandPropId < 0)
         {
-            
+
             const ItemRandomSuffixEntry* itemRandEntry = sItemRandomSuffixStore.LookupEntry(-item->GetItemRandomPropertyId());
             if (itemRandEntry) suffix = &itemRandEntry->Name;
         }
@@ -658,6 +658,11 @@ bool TSItem::ClearEnchantment(uint32 slot)
     owner->ApplyEnchantment(item, (EnchantmentSlot)slot, false);
     item->ClearEnchantment((EnchantmentSlot)slot);
     return true;
+}
+
+void TSItem::SetCharges(uint8 slot, int32 charges)
+{
+    item->SetSpellCharges(slot, charges);
 }
 
 /**

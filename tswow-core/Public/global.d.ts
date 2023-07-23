@@ -4476,6 +4476,8 @@ declare class TSItem extends TSObject {
      */
     ClearEnchantment(slot : uint32) : bool
 
+    SetCharges(slot: uint8, charges: int32) : void
+
     /**
      * Saves the [Item] to the database
      */
@@ -8993,6 +8995,12 @@ declare namespace _hidden {
 
         OnCalculateFeralAttackPower(callback: (item: TSItemTemplate, extra: TSNumber<int32>, result: TSMutableNumber<int32>)=>void);
         OnCalculateFeralAttackPower(id: EventID, callback: (item: TSItemTemplate, extra: TSNumber<int32>, result: TSMutableNumber<int32>)=>void);
+
+        OnSetCharges(callback: (item: TSItem, charges: TSMutableNumber<int32>)=>void);
+        OnSetCharges(id: EventID, callback: (item: TSItem, charges: TSMutableNumber<int32>)=>void);
+
+        OnCreate(callback: (item: TSItem, cancel: TSMutable<bool,bool>)=>void);
+        OnCreate(id: EventID, callback: (item: TSItem, cancel: TSMutable<bool,bool>)=>void);
     }
 
     export class GameObject<T> {

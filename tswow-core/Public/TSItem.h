@@ -80,6 +80,7 @@ public:
     void SetCount(uint32 count);
     bool SetEnchantment(uint32 enchant, uint32 slot);
     bool ClearEnchantment(uint32 slot);
+    void SetCharges(uint8 slot, int32 charges);
     void SaveToDB();
 };
 
