@@ -78,6 +78,7 @@ declare const enum InventorySlots /**@realType:uint32*/{
     BAG_4 = 22
 }
 declare const enum SpellMissInfo {} /** SharedDefines.h:SpellMissInfo */
+declare const enum SpellBatchGroup {} /** Spell.h:SpellBatchGroup */
 declare const enum CorpseType {} /** Corpse.h:CorpseType */
 declare const enum CreatureFamily {} /** SharedDefines.h:CreatureFamily */
 declare const enum RemoveMethod {} /** SharedDefines.h:RemoveMethod */
@@ -8273,6 +8274,9 @@ declare namespace _hidden {
 
         OnRemoveAuraFromCharges(callback: (aura: TSAura, cancel: TSMutable<bool,bool>)=>void);
         OnRemoveAuraFromCharges(id: EventID, callback: (aura: TSAura, cancel: TSMutable<bool,bool>)=>void);
+
+        OnBatch(callback: (spell: TSSpell, group: TSMutableNumber<SpellBatchGroup>, skips: TSMutableNumber<uint32>)=>void);
+        OnBatch(id: EventID, callback: (spell: TSSpell, group: TSMutableNumber<SpellBatchGroup>, skips: TSMutableNumber<uint32>)=>void);
     }
 
     export class Creature<T> {
@@ -9497,6 +9501,8 @@ declare function StopGameEvent(event_id: uint16): void
  *                      defaults to 38 (Recruits Shirt, shirt slot equip)
  */
 declare function CreateItemTemplate(entry:uint32, copyItemID?: uint32): TSItemTemplate;
+declare function GetBatchInterval(): uint32;
+declare function SetBatchInterval(interval: uint32): void;
 // end of Global.h
 
 declare function CreateDictionary<K,V>(obj: {[key: string]: V}) : TSDictionary<K,V>

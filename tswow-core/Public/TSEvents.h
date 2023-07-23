@@ -527,6 +527,7 @@ struct TSEvents
         ID_EVENT(OnRemoveAuraByIterator, TSAuraApplication, TSMutable<bool,bool>)
         ID_EVENT(OnRemoveOwnedAura, TSAura, TSMutable<bool,bool>, bool, bool, TSNumber<uint32>)
         ID_EVENT(OnRemoveAuraFromCharges, TSAura, TSMutable<bool,bool>)
+        ID_EVENT(OnBatch, TSSpell, TSMutableNumber<uint32>, TSMutableNumber<uint32>)
     } Spell;
 
     struct CreatureEvents : public TSMappedEventsRegistry
