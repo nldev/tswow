@@ -119,12 +119,12 @@ TSLua::Array<TSNumber<uint16>> TC_GAME_API LGetActiveGameEvents()
     return sol::as_table(*GetActiveGameEvents().vec);
 }
 
-uint32 GetBatchInterval()
+uint32 GetBatchPeriod()
 {
-    return sWorld->GetBatchInterval();
+    return sWorld->GetBatchPeriod();
 }
 
-void SetBatchInterval(uint32 interval)
+void SetBatchPeriod(uint32 interval)
 {
-    return sWorld->SetBatchInterval(interval);
+    return sWorld->SetBatchPeriod(interval);
 }
