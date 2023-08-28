@@ -4476,12 +4476,19 @@ declare class TSItem extends TSObject {
      */
     ClearEnchantment(slot : uint32) : bool
 
-    SetCharges(slot: uint8, charges: int32) : void
-
     /**
      * Saves the [Item] to the database
      */
     SaveToDB() : void
+
+    GetCharges(slot: uint8) : int32
+    SetCharges(slot: uint8, charges: int32) : void
+
+    GetEnchantmentCharges(slot: uint8) : uint32
+    SetEnchantmentCharges(slot: uint8, charges: uint32) : void
+
+    GetEnchantmentDuration(slot: uint8) : int32
+    SetEnchantmentDuration(slot: uint8, duration: int32) : void
 }
 
 declare interface TSBattlegroundPlayer extends TSEntityProvider, TSWorldEntityProvider<TSBattlegroundPlayer>{
@@ -8259,8 +8266,8 @@ declare namespace _hidden {
         OnRemoveAuraDueToSpell(callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, spell: TSNumber<uint32>)=>void);
         OnRemoveAuraDueToSpell(id: EventID, callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, spell: TSNumber<uint32>)=>void);
 
-        OnPreprocessSpellHit(callback: (spell: TSSpell, isOverride: TSMutable<bool,bool>, miss: TSMutableNumber<SpellMissInfo>)=>void);
-        OnPreprocessSpellHit(id: EventID, callback: (spell: TSSpell, isOverride: TSMutable<bool,bool>, miss: TSMutableNumber<SpellMissInfo>)=>void);
+        OnPreprocessSpellHit(callback: (spell: TSSpell, isOverride: TSMutable<bool,bool>, miss: TSMutableNumber<SpellMissInfo>, target: TSUnit)=>void);
+        OnPreprocessSpellHit(id: EventID, callback: (spell: TSSpell, isOverride: TSMutable<bool,bool>, miss: TSMutableNumber<SpellMissInfo>, target: TSUnit)=>void);
 
         OnRemoveAura(callback: (aura: TSAura, cancel: TSMutable<bool,bool>)=>void);
         OnRemoveAura(id: EventID, callback: (aura: TSAura, cancel: TSMutable<bool,bool>)=>void);

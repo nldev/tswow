@@ -660,10 +660,36 @@ bool TSItem::ClearEnchantment(uint32 slot)
     return true;
 }
 
+int32 TSItem::GetCharges(uint8 slot)
+{
+    return item->GetSpellCharges(slot);
+}
+
 void TSItem::SetCharges(uint8 slot, int32 charges)
 {
     item->SetSpellCharges(slot, charges);
 }
+
+uint32 TSItem::GetEnchantmentCharges(uint8 slot)
+{
+    return item->GetEnchantmentCharges((EnchantmentSlot)slot);
+}
+
+void TSItem::SetEnchantmentCharges(uint8 slot, uint32 charges)
+{
+    item->SetEnchantmentCharges((EnchantmentSlot)slot, charges);
+}
+
+int32 TSItem::GetEnchantmentDuration(uint8 slot)
+{
+    return item->GetEnchantmentDuration((EnchantmentSlot)slot);
+}
+
+void TSItem::SetEnchantmentDuration(uint8 slot, int32 duration)
+{
+    item->SetEnchantmentDuration((EnchantmentSlot)slot, duration, item->GetOwner());
+}
+
 
 /**
  * Saves the [Item] to the database
