@@ -8284,8 +8284,8 @@ declare namespace _hidden {
         OnRemoveAuraFromCharges(callback: (aura: TSAura, cancel: TSMutable<bool,bool>)=>void);
         OnRemoveAuraFromCharges(id: EventID, callback: (aura: TSAura, cancel: TSMutable<bool,bool>)=>void);
 
-        // OnBatch(callback: (spell: TSSpell, group: TSMutableNumber<SpellBatchGroup>, skips: TSMutableNumber<uint32>)=>void);
-        // OnBatch(id: EventID, callback: (spell: TSSpell, group: TSMutableNumber<SpellBatchGroup>, skips: TSMutableNumber<uint32>)=>void);
+        OnBatch(callback: (spell: TSSpell, group: TSMutableNumber<uint32>, skips: TSMutableNumber<uint32>)=>void);
+        OnBatch(id: EventID, callback: (spell: TSSpell, group: TSMutableNumber<uint32>, skips: TSMutableNumber<uint32>)=>void);
 
         OnCalcPoints(callback: (spell: TSSpell, bp0: TSMutableNumber<int32>, bp1: TSMutableNumber<int32>, bp2: TSMutableNumber<int32>)=>void);
         OnCalcPoints(id: EventID, callback: (spell: TSSpell, bp0: TSMutableNumber<int32>, bp1: TSMutableNumber<int32>, bp2: TSMutableNumber<int32>)=>void);
