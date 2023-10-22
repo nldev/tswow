@@ -531,6 +531,7 @@ struct TSEvents
         ID_EVENT(OnBatch, TSSpell, TSMutableNumber<uint32>, TSMutableNumber<uint32>)
         ID_EVENT(OnCalcPoints, TSSpell, TSMutableNumber<int32>, TSMutableNumber<int32>, TSMutableNumber<int32>);
         ID_EVENT(OnSpellResult, TSSpell, TSMutableNumber<uint8>);
+        ID_EVENT(OnHandleCastSpellOpcode, TSSpellInfo, TSPlayer, TSMutable<bool,bool>);
     } Spell;
 
     struct CreatureEvents : public TSMappedEventsRegistry

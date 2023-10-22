@@ -8293,6 +8293,8 @@ declare namespace _hidden {
         OnSpellResult(callback: (spell: TSSpell, result: TSMutable<SpellCastResult,SpellCastResult>)=>void);
         OnSpellResult(id: EventID, callback: (spell: TSSpell, result: TSMutable<SpellCastResult,SpellCastResult>)=>void);
 
+        OnHandleCastSpellOpcode(callback: (info: TSSpellInfo, caster: TSPlayer, isException: TSMutable<bool,bool>)=>void);
+        OnHandleCastSpellOpcode(id: EventID, callback: (info: TSSpellInfo, caster: TSPlayer, isException: TSMutable<bool,bool>)=>void);
     }
 
     export class Creature<T> {
