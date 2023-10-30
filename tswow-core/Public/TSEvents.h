@@ -451,7 +451,7 @@ struct TSEvents
         EVENT(OnSetTarget, TSUnit, TSNumber<uint64> new_target, TSNumber<uint64> old_target)
         EVENT(OnCanDetectStealth, TSUnit, TSWorldObject, TSMutableNumber<int32>, TSMutableNumber<int32>)
         EVENT(OnCancelStealthDetection, TSUnit, TSWorldObject, TSMutable<bool,bool>)
-        EVENT(OnOverrideMeleeOutcome, TSUnit, TSUnit, TSMutableNumber<uint8>, TSNumber<uint32>);
+        EVENT(OnOverrideMeleeHitOutcome, TSUnit, TSUnit, TSMutableNumber<uint8>, TSNumber<uint8>);
     } Unit;
 
     struct SpellEvents : public TSMappedEventsRegistry
@@ -523,7 +523,7 @@ struct TSEvents
         ID_EVENT(OnInterruptAura, TSSpellInfo, TSAura, TSMutable<bool,bool>, TSNumber<uint32>)
         ID_EVENT(OnRemoveAuraDueToSpell, TSSpellInfo, TSAura, TSMutable<bool,bool>, TSNumber<uint32>)
         ID_EVENT(OnCalcMeleeResult, TSSpellInfo, TSUnit, TSUnit, TSMutableNumber<uint32>, TSNumber<uint8>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<int32>)
-        ID_EVENT(OnPreprocessSpellHit, TSSpell, TSMutable<bool,bool>, TSMutableNumber<uint32>, TSUnit)
+        ID_EVENT(OnPreprocessSpellHit, TSSpell, TSMutable<bool,bool>, TSMutableNumber<uint32>, TSUnit, TSMutable<bool,bool>, TSMutable<bool,bool>)
         ID_EVENT(OnRemoveAura, TSAura, TSMutable<bool,bool>)
         ID_EVENT(OnRemoveAuraByApplication, TSAuraApplication, TSMutable<bool,bool>)
         ID_EVENT(OnRemoveAuraByIterator, TSAuraApplication, TSMutable<bool,bool>)

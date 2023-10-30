@@ -8267,8 +8267,8 @@ declare namespace _hidden {
         OnRemoveAuraDueToSpell(callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, spell: TSNumber<uint32>)=>void);
         OnRemoveAuraDueToSpell(id: EventID, callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, spell: TSNumber<uint32>)=>void);
 
-        OnPreprocessSpellHit(callback: (spell: TSSpell, isOverride: TSMutable<bool,bool>, miss: TSMutableNumber<SpellMissInfo>, target: TSUnit)=>void);
-        OnPreprocessSpellHit(id: EventID, callback: (spell: TSSpell, isOverride: TSMutable<bool,bool>, miss: TSMutableNumber<SpellMissInfo>, target: TSUnit)=>void);
+        OnPreprocessSpellHit(callback: (spell: TSSpell, isOverride: TSMutable<bool,bool>, miss: TSMutableNumber<SpellMissInfo>, target: TSUnit, isCombatOverride: TSMutable<bool,bool>, isCombat: TSMutable<bool,bool>)=>void);
+        OnPreprocessSpellHit(id: EventID, callback: (spell: TSSpell, isOverride: TSMutable<bool,bool>, miss: TSMutableNumber<SpellMissInfo>, target: TSUnit, isCombatOverride: TSMutable<bool,bool>, isCombat: TSMutable<bool,bool>)=>void);
 
         OnRemoveAura(callback: (aura: TSAura, cancel: TSMutable<bool,bool>)=>void);
         OnRemoveAura(id: EventID, callback: (aura: TSAura, cancel: TSMutable<bool,bool>)=>void);
@@ -8739,7 +8739,7 @@ declare namespace _hidden {
         OnApplyDiminishingReturn(callback: (target: TSUnit, caster: TSWorldObject, info: TSSpellInfo, duration: TSMutableNumber<int32>, limitedDuration: int32)=>void);
         OnCanDetectStealth(callback: (me: TSUnit, object: TSWorldObject, stealthLevel: TSMutableNumber<int32>, detectionLevel: TSMutableNumber<int32>)=>void);
         OnCancelStealthDetection(callback: (me: TSUnit, object: TSWorldObject, isCancel: TSMutable<bool,bool>)=>void);
-        OnOverrideHitMeleeOutcome(callback: (attacker: TSUnit, victim: TSUnit, outcome: TSMutableNumber<MeleeHitOutcome>, attackType: WeaponAttackType)=>void)
+        OnOverrideMeleeHitOutcome(callback: (attacker: TSUnit, victim: TSUnit, outcome: TSMutableNumber<MeleeHitOutcome>, attackType: WeaponAttackType)=>void);
     }
 
     export class Battleground<T> {
