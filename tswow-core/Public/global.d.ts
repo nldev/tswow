@@ -5781,6 +5781,15 @@ declare class TSObject extends TSEntityProvider {
     SetCoreByte(index : UpdateFields,offset : uint8,value : uint8) : void
 
     /**
+     * Sets the data at the specified index and offset to the given value, converted to an unsigned 8-bit integer.
+     *
+     * @param uint16 index
+     * @param uint8 offset : should be 0, 1, 2, or 3
+     * @param uint8 value
+     */
+    SetCoreFlag(index : UpdateFields,offset : uint8,value : uint8) : void
+
+    /**
      * Sets the data at the specified index to the given value, converted to an unsigned 16-bit integer.
      *
      * @param uint16 index
