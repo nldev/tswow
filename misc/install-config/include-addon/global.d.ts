@@ -13135,6 +13135,7 @@ declare namespace WoWAPI {
      * The main wow frame object
      */
     interface Frame extends Region, ObjectHookScript<Frame>, ObjectSetScript<Frame> {
+        GetRegions(): LuaMultiReturn<[...Region[]]>
 
         /**
          * Creates a new FontString as a child of a frame.

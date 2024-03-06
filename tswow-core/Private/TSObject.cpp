@@ -300,6 +300,20 @@ void TSObject::SetCoreByte(uint16 index,uint8 offset,uint8 value)
     obj->SetByteValue(index, offset, value);
 }
 
+// @net-begin: set-core-flag
+/**
+ * Sets the flag at the specified index and offset to the given value, converted to an unsigned 8-bit integer.
+ *
+ * @param uint16 index
+ * @param uint8 offset : should be 0, 1, 2, or 3
+ * @param uint8 value
+ */
+void TSObject::SetCoreFlag(uint16 index,uint8 offset,uint8 value)
+{
+    obj->SetByteFlag(index, offset, value);
+}
+// @net-end
+
 /**
  * Sets the data at the specified index to the given value, converted to an unsigned 16-bit integer.
  *

@@ -565,6 +565,11 @@ bool TSUnit::HasUnitState(uint32 state)
 #endif
 }
 
+bool TSUnit::IsOutdoors()
+{
+    return unit->IsOutdoors();
+}
+
 /*int TSUnit::IsVisible(lua_State* L, Unit* unit)
 {
     return unit->IsVisible();
@@ -2437,6 +2442,11 @@ void TSUnit::SetResistance(uint32 school, int32 val)
 void TSUnit::SetArmor(int32 val)
 {
     unit->SetArmor(val);
+}
+
+bool TSUnit::HasAuraState(uint32 state)
+{
+    return unit->HasUnitState(state);
 }
 
 bool TSUnit::HasAuraType(uint32 type)

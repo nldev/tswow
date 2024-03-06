@@ -157,6 +157,10 @@ void TSLua::load_events(sol::state& state)
     LUA_HANDLE(unit_events, UnitEvents, OnEnterCombatWith);
     LUA_HANDLE(unit_events, UnitEvents, OnExitCombatWith);
     LUA_HANDLE(unit_events, UnitEvents, OnSetTarget);
+    LUA_HANDLE(unit_events, UnitEvents, OnApplyDiminishingReturn);
+    LUA_HANDLE(unit_events, UnitEvents, OnCanDetectStealth);
+    LUA_HANDLE(unit_events, UnitEvents, OnCancelStealthDetection);
+    LUA_HANDLE(unit_events, UnitEvents, OnOverrideMeleeHitOutcome);
 
     auto spell_events = state.new_usertype<TSEvents::SpellEvents>("SpellEvents");
     LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnCast);
@@ -174,6 +178,7 @@ void TSLua::load_events(sol::state& state)
     LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnCalcMiss);
     LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnCalcCrit);
     LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnCalcAuraCrit);
+    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnCrit);
     LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnCalcReflect);
     LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnCalcHit);
     LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnCalcResist);
@@ -211,6 +216,21 @@ void TSLua::load_events(sol::state& state)
     LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnObjectAreaTargetSelect);
     LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnObjectTargetSelect);
     LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnOnResistAbsorbCalculate);
+    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnDetermineGlobalCooldown);
+    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnPeriodicRemoveAura);
+    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnInterruptAura);
+    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnRemoveAuraDueToSpell);
+    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnCalcMeleeResult);
+    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnPreprocessSpellHit);
+    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnRemoveAura);
+    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnRemoveAuraByApplication);
+    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnRemoveAuraByIterator);
+    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnRemoveOwnedAura);
+    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnRemoveAuraFromCharges);
+    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnBatch);
+    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnCalcPoints);
+    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnSpellResult);
+    LUA_MAPPED_HANDLE(spell_events, SpellEvents, OnHandleCastSpellOpcode);
 
     auto creature_events = state.new_usertype<TSEvents::CreatureEvents>("CreatureEvents");
     LUA_MAPPED_HANDLE(creature_events, CreatureEvents, OnMoveInLOS);

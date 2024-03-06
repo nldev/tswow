@@ -84,6 +84,7 @@ declare const enum InventorySlots /**@realType:uint32*/{
     BAG_4 = 22
 }
 declare const enum SpellMissInfo {} /** SharedDefines.h:SpellMissInfo */
+// declare const enum SpellBatchGroup {} \Spell.h:SpellBatchGroup\
 declare const enum HighGuid { } /** ObjectGuid.h:HighGuid */
 declare const enum CorpseType {} /** Corpse.h:CorpseType */
 declare const enum CreatureFamily {} /** SharedDefines.h:CreatureFamily */
@@ -96,6 +97,7 @@ declare const enum LootState {} /** GameObject.h:LootState */
 declare const enum TempSummonType {} /** ObjectDefines.h:TempSummonType */
 declare const enum TypeID {} /** ObjectGuid.h:TypeID */
 declare const enum CurrentSpellTypes {} /** Unit.h:CurrentSpellTypes */
+declare const enum MeleeHitOutcome {} /** Unit.h:MeleeHitOutcome */
 declare const enum CharmType {} /** Unit.h:CharmType */
 declare const enum PlayerFlags {} /** Player.h:PlayerFlags */
 
@@ -158,6 +160,8 @@ declare const enum SpellEffects { } /** SharedDefines.h:SpellEffects */
 
 declare const enum AuraType { } /** SpellAuraDefines.h:AuraType */
 
+declare const enum AuraStateType { } /** SharedDefines.h:AuraStateType */
+
 declare const enum SpellEffIndex { } /** SharedDefines.h:SpellEffIndex */
 
 declare const enum SpellEffectHandleMode { } /** Spell.h:SpellEffectHandleMode */
@@ -175,6 +179,13 @@ declare const enum GlyphMask /**@realType:uint32 */ {
 
 declare const enum TriggerCastFlags { } /** SpellDefines.h:TriggerCastFlags */
 
+declare const enum DiminishingLevels {
+    DIMINISHING_LEVEL_1            = 0,
+    DIMINISHING_LEVEL_2            = 1,
+    DIMINISHING_LEVEL_3            = 2,
+    DIMINISHING_LEVEL_IMMUNE       = 3,
+    DIMINISHING_LEVEL_4            = 3,
+    DIMINISHING_LEVEL_TAUNT_IMMUNE = 4,
 declare const enum Attitude {
     BOTH = 0,
     HOSTILE = 1,
@@ -2259,6 +2270,8 @@ declare interface TSPlayer extends TSUnit, TSDBJsonProvider {
 
     GetFace(): TSNumber<uint8>;
     SetFace(face: uint8);
+
+    CreateGuild(name: string);
 }
 
 declare interface TSCorpse extends TSWorldObject {
@@ -4559,6 +4572,15 @@ declare class TSItem extends TSObject {
      * Saves the [Item] to the database
      */
     SaveToDB() : void
+
+    GetCharges(slot: uint8) : int32
+    SetCharges(slot: uint8, charges: int32) : void
+
+    GetEnchantmentCharges(slot: uint8) : uint32
+    SetEnchantmentCharges(slot: uint8, charges: uint32) : void
+
+    GetEnchantmentDuration(slot: uint8) : int32
+    SetEnchantmentDuration(slot: uint8, duration: int32) : void
 }
 
 declare interface TSBattlegroundPlayer extends TSEntityProvider, TSWorldEntityProvider<TSBattlegroundPlayer>{
@@ -5899,6 +5921,15 @@ declare class TSObject extends TSEntityProvider {
     SetCoreByte(index : UpdateFields,offset : uint8,value : uint8) : void
 
     /**
+     * Sets the data at the specified index and offset to the given value, converted to an unsigned 8-bit integer.
+     *
+     * @param uint16 index
+     * @param uint8 offset : should be 0, 1, 2, or 3
+     * @param uint8 value
+     */
+    SetCoreFlag(index : UpdateFields,offset : uint8,value : uint8) : void
+
+    /**
      * Sets the data at the specified index to the given value, converted to an unsigned 16-bit integer.
      *
      * @param uint16 index
@@ -5953,6 +5984,7 @@ declare interface TSUnit extends TSWorldObject {
     SetResistance(school: uint32, val: int32): TSNumber<uint32>
     SetArmor(val: int32): TSNumber<uint32>
 
+    HasAuraState(type: AuraStateType): bool
     HasAuraType(type: AuraType): bool
 
     /**
@@ -6235,6 +6267,14 @@ declare interface TSUnit extends TSWorldObject {
      * @return bool hasState
      */
     HasUnitState(state : uint32) : bool
+
+    /**
+     * Returns true if the [Unit] is outdoors.
+     *
+     * @return bool isOutdoors
+     */
+
+    IsOutdoors() : bool
 
     /**
      * Returns the [Unit]'s owner.
@@ -7404,6 +7444,8 @@ declare interface TSUnit extends TSWorldObject {
      */
     AddThreat(victim : TSUnit,threat : float,spell? : uint32,schoolMask? : SpellSchoolMask | uint32, ignoreModifiers?: boolean, ignoreRedirects?: boolean, raw?: boolean) : void
     ScaleThreat(victim: TSUnit, scale: float, raw?: boolean)
+
+    GetTotalAttackPowerValue(weaponAttackType: WeaponAttackType) : TSNumber<float>
 }
 
 declare interface TSItemTemplate extends TSEntityProvider {
@@ -8115,8 +8157,8 @@ declare namespace _hidden {
         OnCheckCast(callback : (spell: TSSpell, result: TSMutable<SpellCastResult,SpellCastResult>)=>void): T;
         OnCheckCast(id: EventID, callback : (spell: TSSpell, result: TSMutable<SpellCastResult,SpellCastResult>)=>void): T;
 
-        OnSuccessfulDispel(callback: (spell: TSSpell, dispelType: uint32)=>void): T;
-        OnSuccessfulDispel(id: EventID, callback: (spell: TSSpell, dispelType: uint32)=>void): T;
+        OnSuccessfulDispel(callback: (spell: TSSpell, dispelType: uint32) => void): T;
+        OnSuccessfulDispel(id: EventID, callback: (spell: TSSpell, dispelType: uint32) => void): T;
 
         OnEffect(callback: (spell: TSSpell, cancel: TSMutable<boolean,boolean>, info: TSSpellEffectInfo, mode: SpellEffectHandleMode, unitTarget: TSUnit, item: TSItem, obj: TSGameObject, corpse: TSCorpse)=>void);
         OnEffect(id: EventID, callback: (spell: TSSpell, cancel: TSMutable<boolean,boolean>, info: TSSpellEffectInfo, mode: SpellEffectHandleMode, unitTarget: TSUnit, item: TSItem, obj: TSGameObject, corpse: TSCorpse)=>void);
@@ -8135,14 +8177,14 @@ declare namespace _hidden {
             , locked: TSMutable<boolean,boolean>
         ) => void)
 
-        OnHit(callback: (spell: TSSpell)=>void): T;
-        OnHit(id: EventID, callback: (spell: TSSpell)=>void): T;
+        OnHit(callback: (spell: TSSpell) => void): T;
+        OnHit(id: EventID, callback: (spell: TSSpell) => void): T;
 
-        OnTick(callback: (effect: TSAuraEffect)=>void): T;
-        OnTick(id: EventID, callback: (effect: TSAuraEffect)=>void): T;
+        OnTick(callback: (effect: TSAuraEffect) => void): T;
+        OnTick(id: EventID, callback: (effect: TSAuraEffect) => void): T;
 
-        OnRemove(callback: (effect: TSAuraEffect, application: TSAuraApplication, type: uint32)=>void): T;
-        OnRemove(id: EventID, callback: (effect: TSAuraEffect, application: TSAuraApplication, type: uint32)=>void): T;
+        OnRemove(callback: (effect: TSAuraEffect, application: TSAuraApplication, type: uint32) => void): T;
+        OnRemove(id: EventID, callback: (effect: TSAuraEffect, application: TSAuraApplication, type: uint32) => void): T;
 
         OnApply(callback: (effect: TSAuraEffect, application: TSAuraApplication, type: AuraEffectHandleMode)=>void): T;
         OnApply(id: EventID, callback: (effect: TSAuraEffect, application: TSAuraApplication, type: AuraEffectHandleMode)=>void): T;
@@ -8150,7 +8192,7 @@ declare namespace _hidden {
         OnCalcMeleeMiss(callback: (spell: TSSpellInfo, miss: TSMutableNumber<float>, attacker: TSUnit, victim: TSUnit, attackType: WeaponAttackType, skillDiff: int32)=>void): T
         OnCalcMeleeMiss(id: EventID, callback: (spell: TSSpellInfo, miss: TSMutableNumber<float>, attacker: TSUnit, victim: TSUnit, attackType: WeaponAttackType, skillDiff: int32)=>void): T
 
-        OnDamageEarly(callback : (
+        OnDamageEarly(callback: (
             spell: TSSpell
           , damage: TSMutableNumber<int32>
           , info: TSSpellDamageInfo
@@ -8195,6 +8237,9 @@ declare namespace _hidden {
         /** critChance should be between 0 and 1 */
         OnCalcCrit(id: EventID, callback : (spelL: TSSpell, chance: TSMutableNumber<float>)=>void): T
 
+        OnCrit(callback : (spell: TSSpell, isCrit: TSMutable<bool,bool>)=>void): T
+        OnCrit(id: EventID, callback : (spell: TSSpell, isCrit: TSMutable<bool,bool>)=>void): T
+
         /** critChance should be between 0 and 1 */
         OnCalcAuraCrit(callback : (aura: TSAuraEffect, chance: TSMutableNumber<float>)=>void): T
         /** critChance should be between 0 and 1 */
@@ -8206,14 +8251,14 @@ declare namespace _hidden {
             , reflectChance: TSMutableNumber<int32>
             , attacker: TSWorldObject
             , victim: TSUnit
-        )=>void): T
+        ) => void): T
         /** reflectCHance should be an integer between 0 and 10000 */
         OnCalcReflect(id: EventID, callback : (
                 spell: TSSpellInfo
             , reflectChance: TSMutableNumber<int32>
             , attacker: TSWorldObject
             , victim: TSUnit
-        )=>void): T
+        ) => void): T
 
         /** hitChance should be an integer between 0 and 10000 */
         OnCalcHit(callback : (
@@ -8221,14 +8266,14 @@ declare namespace _hidden {
             , hitChance: TSMutableNumber<int32>
             , attacker: TSWorldObject
             , defender: TSUnit
-        )=>void): T
+        ) => void): T
         /** hitChance should be an integer between 0 and 10000 */
         OnCalcHit(id: EventID, callback : (
                 spell: TSSpellInfo
             , hitChance: TSMutableNumber<int32>
             , attacker: TSWorldObject
             , defender: TSUnit
-        )=>void): T
+        ) => void): T
 
         /** resistChance should be an integer between 0 and 10000 */
         OnCalcResist(callback : (
@@ -8236,25 +8281,55 @@ declare namespace _hidden {
             , resistChance: TSMutableNumber<int32>
             , attacker: TSWorldObject
             , defender: TSUnit
-        )=>void): T
+        ) => void): T
         /** resistChance should be an integer between 0 and 10000 */
         OnCalcResist(id: EventID, callback : (
                 spell: TSSpellInfo
             , resistChance: TSMutableNumber<int32>
             , attacker: TSWorldObject
             , defender: TSUnit
-        )=>void): T
+        ) => void): T
+        OnCalcMeleeResult(callback: (
+            spell: TSSpellInfo
+            , attacker: TSUnit
+            , victim: TSUnit
+            , result: TSMutableNumber<SpellMissInfo>
+            , attType: TSNumber<WeaponAttackType>
+            , resistChance: TSNumber<uint32>
+            , deflectChance: TSNumber<uint32>
+            , parryChance: TSNumber<uint32>
+            , dodgeChance: TSNumber<uint32>
+            , blockChance: TSNumber<uint32>
+            , missChance: TSNumber<uint32>
+            , hitChance: TSNumber<uint32>
+            , skillDiff: TSNumber<int32>
+        ) => void): T
+        OnCalcMeleeResult(id: EventID, callback: (
+            spell: TSSpellInfo
+            , attacker: TSUnit
+            , victim: TSUnit
+            , result: TSMutableNumber<SpellMissInfo>
+            , attType: TSNumber<WeaponAttackType>
+            , resistChance: TSNumber<uint32>
+            , deflectChance: TSNumber<uint32>
+            , parryChance: TSNumber<uint32>
+            , dodgeChance: TSNumber<uint32>
+            , blockChance: TSNumber<uint32>
+            , missChance: TSNumber<uint32>
+            , hitChance: TSNumber<uint32>
+            , skillDiff: TSNumber<int32>
+        ) => void): T
 
         OnCalcSpellPowerLevelPenalty(callback: (
                 spell: TSSpellInfo
             , penalty: TSMutableNumber<float>
             , caster: TSUnit
-        )=>void): T
+        ) => void): T
         OnCalcSpellPowerLevelPenalty(id: EventID, callback: (
                 spell: TSSpellInfo
             , penalty: TSMutableNumber<float>
             , caster: TSUnit
-        )=>void): T
+        ) => void): T
 
         OnTrainerSend(callback: (spell: TSSpellInfo, trainerId: uint32, receiver: TSPlayer, allow: TSMutable<boolean,boolean>)=>void): T
         OnTrainerSend(id: EventID, callback: (spell: TSSpellInfo, trainerId: uint32, receiver: TSPlayer, allow: TSMutable<boolean,boolean>)=>void): T
@@ -8348,6 +8423,50 @@ declare namespace _hidden {
 
         OnResistAbsorbCalculate(callback: (spelL: TSSpell, damage: TSDamageInfo, resistAmount: TSMutableNumber<uint32>, absorbAmount: TSMutableNumber<int32>, cancel: TSMutable<boolean,boolean> )=>void)
         OnResistAbsorbCalculate(id: EventID, callback: (spelL: TSSpell, damage: TSDamageInfo, resistAmount: TSMutableNumber<uint32>, absorbAmount: TSMutableNumber<int32>, cancel: TSMutable<boolean,boolean> )=>void)
+        OnResistAbsorbCalculate(callback: (spelL: TSSpell, damage: TSDamageInfo, resistAmount: TSMutableNumber<uint32>, absorbAmount: TSMutableNumber<int32>, cancel: TSMutable<boolean,boolean> )=>void)
+        OnResistAbsorbCalculate(id: EventID, callback: (spelL: TSSpell, damage: TSDamageInfo, resistAmount: TSMutableNumber<uint32>, absorbAmount: TSMutableNumber<int32>, cancel: TSMutable<boolean,boolean> )=>void)
+
+        OnDetermineGlobalCooldown(callback: (spell: TSSpell, gcd: TSMutableNumber<int32>)=>void)
+        OnDetermineGlobalCooldown(id: EventID, callback: (spell: TSSpell, gcd: TSMutableNumber<int32>)=>void)
+
+        OnPeriodicRemoveAura(callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, flags: TSNumber<uint32>)=>void);
+        OnPeriodicRemoveAura(id: EventID, callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, flags: TSNumber<uint32>)=>void);
+
+        OnInterruptAura(callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, except: TSNumber<uint32>)=>void);
+        OnInterruptAura(id: EventID, callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, except: TSNumber<uint32>)=>void);
+
+        OnRemoveAuraDueToSpell(callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, spell: TSNumber<uint32>)=>void);
+        OnRemoveAuraDueToSpell(id: EventID, callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, spell: TSNumber<uint32>)=>void);
+
+        OnPreprocessSpellHit(callback: (spell: TSSpell, isOverride: TSMutable<bool,bool>, miss: TSMutableNumber<SpellMissInfo>, target: TSUnit, isCombatOverride: TSMutable<bool,bool>, isCombat: TSMutable<bool,bool>)=>void);
+        OnPreprocessSpellHit(id: EventID, callback: (spell: TSSpell, isOverride: TSMutable<bool,bool>, miss: TSMutableNumber<SpellMissInfo>, target: TSUnit, isCombatOverride: TSMutable<bool,bool>, isCombat: TSMutable<bool,bool>)=>void);
+
+        OnRemoveAura(callback: (aura: TSAura, cancel: TSMutable<bool,bool>)=>void);
+        OnRemoveAura(id: EventID, callback: (aura: TSAura, cancel: TSMutable<bool,bool>)=>void);
+
+        OnRemoveAuraByApplication(callback: (auraApplication: TSAuraApplication, cancel: TSMutable<bool,bool>)=>void);
+        OnRemoveAuraByApplication(id: EventID, callback: (auraApplication: TSAuraApplication, cancel: TSMutable<bool,bool>)=>void);
+
+        OnRemoveAuraByIterator(callback: (auraApplication: TSAuraApplication, cancel: TSMutable<bool,bool>)=>void);
+        OnRemoveAuraByIterator(id: EventID, callback: (auraApplication: TSAuraApplication, cancel: TSMutable<bool,bool>)=>void);
+
+        OnRemoveOwnedAura(callback: (aura: TSAura, cancel: TSMutable<bool,bool>, isRemoved: bool, isExpired: bool, removeMode: uint32)=>void);
+        OnRemoveOwnedAura(id: EventID, callback: (aura: TSAura, cancel: TSMutable<bool,bool>, isRemoved: bool, isExpired: bool, removeMode: uint32)=>void);
+
+        OnRemoveAuraFromCharges(callback: (aura: TSAura, cancel: TSMutable<bool,bool>)=>void);
+        OnRemoveAuraFromCharges(id: EventID, callback: (aura: TSAura, cancel: TSMutable<bool,bool>)=>void);
+
+        OnBatch(callback: (spell: TSSpell, group: TSMutableNumber<uint32>, skips: TSMutableNumber<uint32>)=>void);
+        OnBatch(id: EventID, callback: (spell: TSSpell, group: TSMutableNumber<uint32>, skips: TSMutableNumber<uint32>)=>void);
+
+        OnCalcPoints(callback: (spell: TSSpell, bp0: TSMutableNumber<int32>, bp1: TSMutableNumber<int32>, bp2: TSMutableNumber<int32>)=>void);
+        OnCalcPoints(id: EventID, callback: (spell: TSSpell, bp0: TSMutableNumber<int32>, bp1: TSMutableNumber<int32>, bp2: TSMutableNumber<int32>)=>void);
+
+        OnSpellResult(callback: (spell: TSSpell, result: TSMutable<SpellCastResult,SpellCastResult>)=>void);
+        OnSpellResult(id: EventID, callback: (spell: TSSpell, result: TSMutable<SpellCastResult,SpellCastResult>)=>void);
+
+        OnHandleCastSpellOpcode(callback: (info: TSSpellInfo, caster: TSPlayer, isException: TSMutable<bool,bool>)=>void);
+        OnHandleCastSpellOpcode(id: EventID, callback: (info: TSSpellInfo, caster: TSPlayer, isException: TSMutable<bool,bool>)=>void);
     }
 
     export class Creature<T> {
@@ -8750,6 +8869,8 @@ declare namespace _hidden {
             , dodgeChance: TSMutableNumber<float>
             , blockChance : TSMutableNumber<float>
             , parryChance: TSMutableNumber<float>
+            , glancingChance: TSMutableNumber<float>
+            , crushingChance: TSMutableNumber<float>
             , attackType: WeaponAttackType
         )=>void)
 
@@ -8790,7 +8911,12 @@ declare namespace _hidden {
         OnExitCombat(callback: (unit: TSUnit)=>void);
         OnEnterCombatWith(callback: (me: TSUnit, other: TSUnit)=>void);
         OnExitCombatWith(callback: (me: TSUnit, other: TSUnit)=>void);
-        OnSetTarget(callback: (me: TSUnit, selection: uint64, oldSelection: uint64)=>void)
+        OnSetTarget(callback: (me: TSUnit, selection: uint64, oldSelection: uint64) => void);
+
+        OnApplyDiminishingReturn(callback: (target: TSUnit, caster: TSWorldObject, info: TSSpellInfo, duration: TSMutableNumber<int32>, limitedDuration: int32)=>void);
+        OnCanDetectStealth(callback: (me: TSUnit, object: TSWorldObject, stealthLevel: TSMutableNumber<int32>, detectionLevel: TSMutableNumber<int32>)=>void);
+        OnCancelStealthDetection(callback: (me: TSUnit, object: TSWorldObject, isCancel: TSMutable<bool,bool>)=>void);
+        OnOverrideMeleeHitOutcome(callback: (attacker: TSUnit, victim: TSUnit, outcome: TSMutableNumber<MeleeHitOutcome>, attackType: WeaponAttackType)=>void);
     }
 
     export class Battleground<T> {
@@ -9596,6 +9722,9 @@ declare function StopGameEvent(event_id: uint16): void
  *                      defaults to 38 (Recruits Shirt, shirt slot equip)
  */
 declare function CreateItemTemplate(entry:uint32, copyItemID?: uint32): TSItemTemplate;
+
+declare function GetBatchPeriod(): uint32;
+declare function SetBatchPeriod(period: uint32): void;
 // end of Global.h
 
 declare function CreateDictionary<K,V>(obj: {[key: string]: V}) : TSDictionary<K,V>

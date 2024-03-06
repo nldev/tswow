@@ -70,6 +70,9 @@ public:
     void UpdateCoreUInt32(uint16 index, uint32 value);
     void SetCoreFloat(uint16 index, float value);
     void SetCoreByte(uint16 index, uint8 offset, uint8 value);
+    // @net-begin: set-core-flag
+    void SetCoreFlag(uint16 index, uint8 offset, uint8 value);
+    // @net-end
     void SetCoreUInt16(uint16 index, uint8 offset, uint16 value);
     void SetCoreUInt64(uint16 index, uint64 value);
 

@@ -418,6 +418,8 @@ struct TSEvents
             , TSMutableNumber<float>
             , TSMutableNumber<float>
             , TSMutableNumber<float>
+            , TSMutableNumber<float>
+            , TSMutableNumber<float>
             , TSNumber<uint32>
         );
         EVENT(OnCalcThreatEarly
@@ -449,6 +451,10 @@ struct TSEvents
         EVENT(OnSetTarget, TSUnit, TSNumber<uint64> new_target, TSNumber<uint64> old_target)
         EVENT(OnLiquidStatusChanged, TSUnit, TSMutableNumber<uint32> newStatus);
         EVENT(OnOutdoorsChanged, TSUnit, TSMutable<bool,bool> isOutdoors);
+        EVENT(OnApplyDiminishingReturn, TSUnit target, TSWorldObject caster, TSSpellInfo info, TSMutableNumber<int32> duration, int32 limitedDuration)
+        EVENT(OnCancelStealthDetection, TSUnit, TSWorldObject, TSMutable<bool,bool>)
+        EVENT(OnCanDetectStealth, TSUnit, TSWorldObject, TSMutableNumber<int32>, TSMutableNumber<int32>)
+        EVENT(OnOverrideMeleeHitOutcome, TSUnit, TSUnit, TSMutableNumber<uint8>, TSNumber<uint8>);
     } Unit;
 
     struct SpellEvents : public TSMappedEventsRegistry
@@ -489,6 +495,7 @@ struct TSEvents
         ID_EVENT(OnCalcHit, TSSpellInfo, TSMutableNumber<int32>, TSWorldObject, TSUnit)
         ID_EVENT(OnCalcResist, TSSpellInfo, TSMutableNumber<int32>, TSWorldObject, TSUnit)
         ID_EVENT(OnCalcMeleeMiss, TSSpellInfo, TSMutableNumber<float>, TSUnit, TSUnit, TSNumber<uint8> attackType, TSNumber<int32> skillDiff)
+        ID_EVENT(OnCrit, TSSpell, TSMutable<bool,bool>)
 
         ID_EVENT(OnCheckAreaTarget, TSAura, TSUnit, TSMutable<bool,bool> result, TSMutable<bool,bool> cancelDefault)
         ID_EVENT(OnCheckEffectProc, TSAuraEffect, TSAuraApplication, TSProcEventInfo, TSMutable<bool,bool> result, TSMutable<bool,bool> cancelDefault)
@@ -520,6 +527,24 @@ struct TSEvents
         ID_EVENT(OnObjectAreaTargetSelect, TSSpell, TSWorldObjectCollection, TSNumber<uint32> index, TSSpellImplicitTargetInfo, TSMutable<bool,bool> cancelDefault)
         ID_EVENT(OnObjectTargetSelect, TSSpell, TSMutableWorldObject, TSNumber<uint32> index, TSSpellImplicitTargetInfo, TSMutable<bool,bool> cancelDefault)
         ID_EVENT(OnOnResistAbsorbCalculate, TSSpell, TSDamageInfo, TSMutableNumber<uint32> resistAmount, TSMutableNumber<int32> absorbAmount, TSMutable<bool,bool> cancelDefault)
+        ID_EVENT(OnHandleCastSpellOpcode, TSSpellInfo, TSPlayer, TSMutable<bool,bool>);
+        ID_EVENT(OnSpellResult, TSSpell, TSMutableNumber<uint8>);
+        ID_EVENT(OnCalcPoints, TSSpell, TSMutableNumber<int32>, TSMutableNumber<int32>, TSMutableNumber<int32>);
+        ID_EVENT(OnBatch, TSSpell, TSMutableNumber<uint32>, TSMutableNumber<uint32>)
+        ID_EVENT(OnRemoveOwnedAura, TSAura, TSMutable<bool,bool>, bool, bool, TSNumber<uint32>)
+        ID_EVENT(OnRemoveAuraByIterator, TSAuraApplication, TSMutable<bool,bool>)
+        ID_EVENT(OnRemoveAuraByApplication, TSAuraApplication, TSMutable<bool,bool>)
+        ID_EVENT(OnRemoveAura, TSAura, TSMutable<bool,bool>)
+        ID_EVENT(OnPreprocessSpellHit, TSSpell, TSMutable<bool,bool>, TSMutableNumber<uint32>, TSUnit, TSMutable<bool,bool>, TSMutable<bool,bool>)
+        ID_EVENT(OnCalcMeleeResult, TSSpellInfo, TSUnit, TSUnit, TSMutableNumber<uint32>, TSNumber<uint8>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<int32>)
+        ID_EVENT(OnRemoveAuraDueToSpell, TSSpellInfo, TSAura, TSMutable<bool,bool>, TSNumber<uint32>)
+        ID_EVENT(OnInterruptAura, TSSpellInfo, TSAura, TSMutable<bool,bool>, TSNumber<uint32>)
+        ID_EVENT(OnPeriodicRemoveAura, TSSpellInfo, TSAura, TSMutable<bool,bool>, TSNumber<uint32>)
+        ID_EVENT(OnDetermineGlobalCooldown, TSSpell, TSMutableNumber<int32>)
+        ID_EVENT(OnOnResistAbsorbCalculate, TSSpell, TSDamageInfo, TSMutableNumber<uint32> resistAmount, TSMutableNumber<int32> absorbAmount, TSMutable<bool,bool> cancelDefault)
+        ID_EVENT(OnObjectTargetSelect, TSSpell, TSMutableWorldObject, TSNumber<uint32> index, TSSpellImplicitTargetInfo, TSMutable<bool,bool> cancelDefault)
+        ID_EVENT(OnObjectAreaTargetSelect, TSSpell, TSWorldObjectCollection, TSNumber<uint32> index, TSSpellImplicitTargetInfo, TSMutable<bool,bool> cancelDefault)
+        ID_EVENT(OnDestinationTargetSelect, TSSpell, TSSpellDestination, TSNumber<uint32> index, TSSpellImplicitTargetInfo, TSMutable<bool,bool> cancelDefault)
     } Spell;
 
     struct CreatureEvents : public TSMappedEventsRegistry
@@ -818,6 +843,9 @@ struct TSEvents
          ID_EVENT(OnLFGRollEarly, TSItemTemplate, TSWorldObject looted, TSPlayer looter, TSMutableNumber<int32> result)
          ID_EVENT(OnDestroyEarly, TSItem, TSPlayer, TSMutable<bool,bool>)
          ID_EVENT(OnTakenAsLoot, TSItem, TSLootItem, TSLoot, TSPlayer)
+         ID_EVENT(OnCalculateFeralAttackPower, TSItemTemplate, TSNumber<int32>, TSMutableNumber<int32> result)
+         ID_EVENT(OnSetCharges, TSItem, TSMutableNumber<int32>)
+         ID_EVENT(OnCreate, TSItem, TSMutable<bool,bool>)
          ID_EVENT(OnCalculateFeralAttackPower, TSItemTemplate, TSNumber<int32>, TSMutableNumber<int32> result)
      } Item;
 

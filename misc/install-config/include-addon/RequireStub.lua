@@ -22,11 +22,12 @@
  */
 
  /*
-  * Modified by TSWoW 
+  * Modified by TSWoW
   */
 --]]
 local preloadFns = {}
 local modules = {}
+_G["__tsmodules__"] = modules
 local function ends_with(str, ending)
   return ending == "" or str:sub(-#ending) == ending
 end

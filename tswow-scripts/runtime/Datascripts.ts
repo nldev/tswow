@@ -42,7 +42,7 @@ const lib_package_json =
 const data_tsconfig =
 {
   "compilerOptions": {
-    "target": "es2018",
+    "target": "es2020",
     "module": "commonjs",
     "outDir": "./build",
     "rootDir": "./",

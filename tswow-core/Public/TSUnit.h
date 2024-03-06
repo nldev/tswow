@@ -75,6 +75,7 @@ public:
     bool HasAuraType(uint32 auraType);
     bool IsCasting();
     bool HasUnitState(uint32 state);
+    bool IsOutdoors();
     TSUnit  GetOwner();
     TSGUID GetOwnerGUID();
     TSNumber<uint32> GetMountID();
@@ -228,6 +229,8 @@ public:
     TSNumber<uint32> GetArmor();
     void SetResistance(uint32 school, int32 val);
     void SetArmor(int32 val);
+
+    TSNumber<float> GetTotalAttackPowerValue(uint8 weaponAttackType);
 private:
     TSLua::Array<TSUnit> LGetControlled();
     friend class TSLua;

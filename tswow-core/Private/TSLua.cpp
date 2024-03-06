@@ -7,7 +7,7 @@
 #include "document.hpp"
 #endif
 #include <fstream>
-    
+
 static std::map<std::filesystem::path, sol::table> modules;
 static std::vector<std::filesystem::path> file_stack;
 static std::filesystem::path cur_module;
