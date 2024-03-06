@@ -340,7 +340,6 @@ void TSLua::Load()
         "function TSClass.prototype.____constructor(self) end\n"
         "return TSClass"
     );
-    state.script("print(\"hello_test\")");
 
     for (auto const& entry : std::filesystem::directory_iterator(LuaRoot()))
     {

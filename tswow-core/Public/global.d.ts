@@ -180,12 +180,14 @@ declare const enum GlyphMask /**@realType:uint32 */ {
 declare const enum TriggerCastFlags { } /** SpellDefines.h:TriggerCastFlags */
 
 declare const enum DiminishingLevels {
-    DIMINISHING_LEVEL_1            = 0,
-    DIMINISHING_LEVEL_2            = 1,
-    DIMINISHING_LEVEL_3            = 2,
-    DIMINISHING_LEVEL_IMMUNE       = 3,
-    DIMINISHING_LEVEL_4            = 3,
+    DIMINISHING_LEVEL_1 = 0,
+    DIMINISHING_LEVEL_2 = 1,
+    DIMINISHING_LEVEL_3 = 2,
+    DIMINISHING_LEVEL_IMMUNE = 3,
+    DIMINISHING_LEVEL_4 = 3,
     DIMINISHING_LEVEL_TAUNT_IMMUNE = 4,
+}
+
 declare const enum Attitude {
     BOTH = 0,
     HOSTILE = 1,
@@ -4040,7 +4042,7 @@ declare interface TSMap extends TSEntityProvider, TSWorldEntityProvider<TSMap> {
 
     /**
      * Check if 2 positions are within LoS of each other, following different checks.
-     * 
+     *
      * @param x1
      * @param y1
      * @param z1
@@ -4627,7 +4629,7 @@ declare interface TSBattlegroundScore {
     SetAVGraveyardsDefended(value: uint32): void
     SetAVTowersAssaulted(value: uint32): void
     SetAVTowersDefended(value: uint32): void
-    SetAVMinesCaptured(value: uint32): void 
+    SetAVMinesCaptured(value: uint32): void
     SetSADestroyedDemolishers(value: uint32): void
     SetSADestroyedGates(value: uint32): void
     GetPlayerGUID(): uint64
@@ -6696,7 +6698,7 @@ declare interface TSUnit extends TSWorldObject {
 
     /**
      * Resets the cooldown of a specific spell
-     * @param spellId 
+     * @param spellId
      * @param update = false
      */
     ResetCooldown(spellId: uint32, update?: boolean);
@@ -6752,7 +6754,7 @@ declare interface TSUnit extends TSWorldObject {
 
     /**
      * Return angle towards point given from Unit.
-     * 
+     *
      * @param x
      * @param y
      */

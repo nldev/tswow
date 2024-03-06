@@ -534,6 +534,7 @@ struct TSEvents
         ID_EVENT(OnRemoveOwnedAura, TSAura, TSMutable<bool,bool>, bool, bool, TSNumber<uint32>)
         ID_EVENT(OnRemoveAuraByIterator, TSAuraApplication, TSMutable<bool,bool>)
         ID_EVENT(OnRemoveAuraByApplication, TSAuraApplication, TSMutable<bool,bool>)
+        ID_EVENT(OnRemoveAuraFromCharges, TSAura, TSMutable<bool,bool>)
         ID_EVENT(OnRemoveAura, TSAura, TSMutable<bool,bool>)
         ID_EVENT(OnPreprocessSpellHit, TSSpell, TSMutable<bool,bool>, TSMutableNumber<uint32>, TSUnit, TSMutable<bool,bool>, TSMutable<bool,bool>)
         ID_EVENT(OnCalcMeleeResult, TSSpellInfo, TSUnit, TSUnit, TSMutableNumber<uint32>, TSNumber<uint8>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<uint32>, TSNumber<int32>)
@@ -541,10 +542,6 @@ struct TSEvents
         ID_EVENT(OnInterruptAura, TSSpellInfo, TSAura, TSMutable<bool,bool>, TSNumber<uint32>)
         ID_EVENT(OnPeriodicRemoveAura, TSSpellInfo, TSAura, TSMutable<bool,bool>, TSNumber<uint32>)
         ID_EVENT(OnDetermineGlobalCooldown, TSSpell, TSMutableNumber<int32>)
-        ID_EVENT(OnOnResistAbsorbCalculate, TSSpell, TSDamageInfo, TSMutableNumber<uint32> resistAmount, TSMutableNumber<int32> absorbAmount, TSMutable<bool,bool> cancelDefault)
-        ID_EVENT(OnObjectTargetSelect, TSSpell, TSMutableWorldObject, TSNumber<uint32> index, TSSpellImplicitTargetInfo, TSMutable<bool,bool> cancelDefault)
-        ID_EVENT(OnObjectAreaTargetSelect, TSSpell, TSWorldObjectCollection, TSNumber<uint32> index, TSSpellImplicitTargetInfo, TSMutable<bool,bool> cancelDefault)
-        ID_EVENT(OnDestinationTargetSelect, TSSpell, TSSpellDestination, TSNumber<uint32> index, TSSpellImplicitTargetInfo, TSMutable<bool,bool> cancelDefault)
     } Spell;
 
     struct CreatureEvents : public TSMappedEventsRegistry
@@ -843,7 +840,6 @@ struct TSEvents
          ID_EVENT(OnLFGRollEarly, TSItemTemplate, TSWorldObject looted, TSPlayer looter, TSMutableNumber<int32> result)
          ID_EVENT(OnDestroyEarly, TSItem, TSPlayer, TSMutable<bool,bool>)
          ID_EVENT(OnTakenAsLoot, TSItem, TSLootItem, TSLoot, TSPlayer)
-         ID_EVENT(OnCalculateFeralAttackPower, TSItemTemplate, TSNumber<int32>, TSMutableNumber<int32> result)
          ID_EVENT(OnSetCharges, TSItem, TSMutableNumber<int32>)
          ID_EVENT(OnCreate, TSItem, TSMutable<bool,bool>)
          ID_EVENT(OnCalculateFeralAttackPower, TSItemTemplate, TSNumber<int32>, TSMutableNumber<int32> result)

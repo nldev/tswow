@@ -72,6 +72,7 @@ public:
     bool HealthBelowPct(int32 pct);
     bool HealthAbovePct(int32 pct);
     bool HasAura(uint32 spell, TSGUID casterGUID = EmptyGUID(), TSGUID itemCasterGUID = EmptyGUID(), uint8 reqEffMask = 0);
+    bool HasAuraState(uint32 state);
     bool HasAuraType(uint32 auraType);
     bool IsCasting();
     bool HasUnitState(uint32 state);

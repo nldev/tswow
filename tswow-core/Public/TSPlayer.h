@@ -45,6 +45,7 @@ public:
 	TSDBJson* get_json() override;
 	bool CanTitanGrip();
 	bool HasRunes();
+	TSGuild CreateGuild(std::string const& name);
 	bool HasTalent(uint32 spellId, uint8 spec);
 	bool HasAchieved(uint32 achievementId);
 	bool HasQuest(uint32 quest);

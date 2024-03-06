@@ -494,11 +494,6 @@ bool TSMap::IsInLineOfSight(float x1,float y1,float z1, float x2, float y2, floa
     return map->isInLineOfSight( x1,  y1,  z1,  x2,  y2,  z2,  phasemask, static_cast<LineOfSightChecks>(checks), static_cast<VMAP::ModelIgnoreFlags>(ignoreFlags));
 }
 
-bool TSMap::IsInLineOfSight(float x1,float y1,float z1, float x2, float y2, float z2, uint32 phasemask, uint32 checks, uint32 ignoreFlags)
-{
-    return map->isInLineOfSight( x1,  y1,  z1,  x2,  y2,  z2,  phasemask, static_cast<LineOfSightChecks>(checks), static_cast<VMAP::ModelIgnoreFlags>(ignoreFlags));
-}
-
 void TSMap::LDoDelayed(sol::function callback)
 {
 #if TRINITY
