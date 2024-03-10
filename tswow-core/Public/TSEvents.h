@@ -542,6 +542,7 @@ struct TSEvents
         ID_EVENT(OnInterruptAura, TSSpellInfo, TSAura, TSMutable<bool,bool>, TSNumber<uint32>)
         ID_EVENT(OnPeriodicRemoveAura, TSSpellInfo, TSAura, TSMutable<bool,bool>, TSNumber<uint32>)
         ID_EVENT(OnDetermineGlobalCooldown, TSSpell, TSMutableNumber<int32>)
+        ID_EVENT(OnHeal, TSSpellInfo, TSUnit, TSUnit, TSMutableNumber<uint32>)
     } Spell;
 
     struct CreatureEvents : public TSMappedEventsRegistry

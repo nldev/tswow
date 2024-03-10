@@ -8431,6 +8431,9 @@ declare namespace _hidden {
         OnDetermineGlobalCooldown(callback: (spell: TSSpell, gcd: TSMutableNumber<int32>)=>void)
         OnDetermineGlobalCooldown(id: EventID, callback: (spell: TSSpell, gcd: TSMutableNumber<int32>)=>void)
 
+        OnHeal(callback: (spellInfo: TSSpellInfo, healer: TSUnit, target: TSUnit, heal: TSMutableNumber<uint32>)=>void)
+        OnHeal(id: EventID, callback: (spellInfo: TSSpellInfo, healer: TSUnit, target: TSUnit, heal: TSMutableNumber<uint32>)=>void)
+
         OnPeriodicRemoveAura(callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, flags: TSNumber<uint32>)=>void);
         OnPeriodicRemoveAura(id: EventID, callback: (info: TSSpellInfo, aura: TSAura, removed: TSMutable<bool,bool>, flags: TSNumber<uint32>)=>void);
 
