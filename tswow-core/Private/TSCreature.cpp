@@ -1023,6 +1023,12 @@ void TSCreature::SetDefaultMovementType(int32 type)
 {
 
     creature->SetDefaultMovementType((MovementGeneratorType)type);
+    creature->GetMotionMaster()->InitializeDefault();
+}
+
+void TSCreature::ClearMovement()
+{
+    creature->GetMotionMaster()->Clear();
 }
 
 /**
@@ -1077,7 +1083,7 @@ void TSCreature::SetHover(bool enable)
 
 /**
  * Sets whether the Creature can fly. Usually mixed with Disable Gravity.
- * 
+ *
  * @param bool enable = true : `true` to enable flying, `false` to disable
  */
 void TSCreature::SetCanFly(bool enable)

@@ -3125,6 +3125,7 @@ declare interface TSCreature extends TSUnit {
      * @param [MovementGeneratorType] type
      */
     SetDefaultMovementType(type : int32) : void
+    ClearMovement() : void
 
     /**
      * Sets whether the [Creature] can search for assistance at low health or not.

@@ -81,6 +81,7 @@ void TSLua::load_creature_methods(sol::state & state)
     LUA_FIELD(ts_creature, TSCreature, SetWanderRadius);
     LUA_FIELD(ts_creature, TSCreature, SetRespawnDelay);
     LUA_FIELD(ts_creature, TSCreature, SetDefaultMovementType);
+    LUA_FIELD(ts_creature, TSCreature, ClearMovement);
     LUA_FIELD(ts_creature, TSCreature, SetNoSearchAssistance);
     LUA_FIELD(ts_creature, TSCreature, SetNoCallAssistance);
     LUA_FIELD(ts_creature, TSCreature, SetHover);

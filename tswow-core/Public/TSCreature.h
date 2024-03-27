@@ -101,6 +101,7 @@ public:
     void SetWanderRadius(float dist);
     void SetRespawnDelay(uint32 delay);
     void SetDefaultMovementType(int32 type);
+    void ClearMovement();
     void SetNoSearchAssistance(bool val);
     void SetNoCallAssistance(bool val);
     void SetHover(bool enable);
