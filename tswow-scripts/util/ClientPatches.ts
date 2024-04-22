@@ -166,6 +166,38 @@ export function ClientPatches(
                     gamebuild&0xff,
                     (gamebuild>>8)&0xff
                 ]]
-            ])
+            ]),
+            // @net-begin: client-extensions
+            patch('windowed-mode-gamma-fix', [
+                [0xE94, [0xEB]]
+            ]),
+            patch('melee-swing-right-click', [
+                [0x2E1C67, [0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90, 0x90]]
+            ]),
+            patch('npc-turn-attack-anim', [
+                [0x33D7C9, [0xEB]]
+            ]),
+            patch('npc-evade-ghost-attack', [
+                [0x355BF, [0xEB]]
+            ]),
+            patch('missing-pre-cast-animation', [
+                [0x33E0D6, [
+                    0x90, 0x90, 0x90, 0x90, 0x90,
+                    0x90, 0x90, 0x90, 0x90, 0x90,
+                    0x90, 0x90, 0x90, 0x90, 0x90,
+                    0x90, 0x90, 0x90, 0x90, 0x90,
+                    0x90, 0x90,
+                ]]
+            ]),
+            patch('area-trigger-time-out', [
+                [0x2DB241, [50]]
+            ]),
+            patch('blue-moon', [
+                [0x5CFBC0, [0xC7, 0x05, 0x74, 0x8E, 0xD3, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xC3]]
+            ]),
+            patch ('assist-any-corpse', [
+                [0x31EC9E, [0x0]]
+            ]),
+            // @net-end
         ]
 }

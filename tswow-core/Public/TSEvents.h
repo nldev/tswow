@@ -455,6 +455,7 @@ struct TSEvents
         EVENT(OnCancelStealthDetection, TSUnit, TSWorldObject, TSMutable<bool,bool>)
         EVENT(OnCanDetectStealth, TSUnit, TSWorldObject, TSMutableNumber<int32>, TSMutableNumber<int32>)
         EVENT(OnOverrideMeleeHitOutcome, TSUnit, TSUnit, TSMutableNumber<uint8>, TSNumber<uint8>);
+        EVENT(OnCanSeeOrDetect, TSUnit, TSWorldObject, TSMutable<bool,bool>);
     } Unit;
 
     struct SpellEvents : public TSMappedEventsRegistry

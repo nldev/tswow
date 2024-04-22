@@ -8920,9 +8920,10 @@ declare namespace _hidden {
         OnSetTarget(callback: (me: TSUnit, selection: uint64, oldSelection: uint64) => void);
 
         OnApplyDiminishingReturn(callback: (target: TSUnit, caster: TSWorldObject, info: TSSpellInfo, duration: TSMutableNumber<int32>, limitedDuration: int32)=>void);
-        OnCanDetectStealth(callback: (me: TSUnit, object: TSWorldObject, stealthLevel: TSMutableNumber<int32>, detectionLevel: TSMutableNumber<int32>)=>void);
-        OnCancelStealthDetection(callback: (me: TSUnit, object: TSWorldObject, isCancel: TSMutable<bool,bool>)=>void);
+        OnCanDetectStealth(callback: (observer: TSUnit, observed: TSWorldObject, stealthLevel: TSMutableNumber<int32>, detectionLevel: TSMutableNumber<int32>)=>void);
+        OnCancelStealthDetection(callback: (observer: TSUnit, observed: TSWorldObject, isCancel: TSMutable<bool,bool>)=>void);
         OnOverrideMeleeHitOutcome(callback: (attacker: TSUnit, victim: TSUnit, outcome: TSMutableNumber<MeleeHitOutcome>, attackType: WeaponAttackType)=>void);
+        OnCanSeeOrDetect(callback: (observer: TSUnit, observed: TSWorldObject, result: TSMutable<bool,bool>)=>void);
     }
 
     export class Battleground<T> {
